@@ -1,13 +1,25 @@
 #![feature(io)]
+#![feature(old_io)]
     
 mod dict;
 mod acc;
 mod graph;
 use dict::Dict;
 use graph::Graph;
+use std::old_io as io;
 
 fn main() {
     let _dict = dict::Dict::load("tdict-std.txt").unwrap();
-    let g = Graph::build("กามกา", &_dict);
-    println!("@@@@ {:?}", g.to_str_vec());
-}
+    let mut reader = io::stdin();
+    let mut o = io::stdout();
+    loop {
+        let input = match reader.read_line() {
+            Ok(line) => line,
+            Err(_) => break
+        };        
+        let g = Graph::build((&input[..]).trim_right_matches('\n'), &_dict);
+        let segmented: &str = &(g.to_str_vec().connect("|"))[..];
+        o.write_str(segmented);
+        o.write_str("\n");
+    }
+} 
