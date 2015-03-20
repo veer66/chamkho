@@ -19,26 +19,8 @@ impl Wordcut {
         let g = Graph::build(&txt[..], &self.dict);
         g.to_str_vec()
     }
-}
 
-
-
-
-/*
-fn main() {
-//trim_right_matches('\n')
-    let _dict = Dict::load("tdict-std.txt").unwrap();
-    let mut reader = io::stdin();
-    let mut o = io::stdout();
-    loop {
-        let input = match reader.read_line() {
-            Ok(line) => line,
-            Err(_) => break
-        };        
-
-        let segmented: &str = &(g.to_str_vec().connect("|"))[..];
-        o.write_str(segmented);
-        o.write_str("\n");
+    pub fn put_delimiters(&self, txt: &String, delim: &str) -> String {
+        self.segment_into_strings(txt).connect(delim)
     }
-} 
-*/
+}

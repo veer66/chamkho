@@ -31,4 +31,14 @@ mod tests {
         assert_eq!(words, expected)
     }
 
+    #[test]
+    fn test_segment_into_string_with_delimiter() {
+        let dict = Dict::load_default();
+        let wordcut = Wordcut::new(dict.unwrap());
+        let segmented_string = wordcut.put_delimiters(&"กากกา".to_string(), "|");
+        let expected = "กาก|กา";
+        assert_eq!(segmented_string, expected)
+    }
+
+
 }
