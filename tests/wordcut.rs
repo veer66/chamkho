@@ -22,4 +22,13 @@ mod tests {
         assert_eq!(ranges, expected)
     }
 
+    #[test]
+    fn test_segment_into_strings() {
+        let dict = Dict::load_default();
+        let wordcut = Wordcut::new(dict.unwrap());
+        let words = wordcut.segment_into_strings(&"กากกา".to_string());
+        let expected = vec!["กาก".to_string(), "กา".to_string()];
+        assert_eq!(words, expected)
+    }
+
 }
