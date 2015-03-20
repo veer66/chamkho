@@ -3,3 +3,4 @@
 name = "chamkho"
 version = "0.0.1"
 authors = ["Vee Satayamas <vsatayamas@gmail.com>"]
+test = true

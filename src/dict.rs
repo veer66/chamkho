@@ -1,5 +1,7 @@
 use std::fs::File;
 use std::io::Read;
+use std::path::PathBuf;
+use std::path::Path;
 
 #[allow(dead_code)]
 pub enum Policy {
@@ -11,7 +13,8 @@ pub struct Dict {
 }
 
 impl Dict {
-    pub fn load(path: &str) -> Result<Dict, &str> {
+    pub fn load<'a>(path: &Path) -> Result<Dict, &'a str> {
+        println!("{:?}", path);
         let mut f = match File::open(path) {
             Ok(f) => f,
             Err(_) => return Err("Cannot open dict")
@@ -24,6 +27,13 @@ impl Dict {
         let words = s.split("\n");
         let wlst: Vec<Vec<char>> = words.map(|w| w.chars().collect()).collect();
         Ok(Dict{wlst:wlst})
+    }
+
+    pub fn load_default<'a>() -> Result<Dict, &'a str> {
+        let mut pathbuf = PathBuf::new(file!());
+        pathbuf.pop();       
+        pathbuf.push("tdict-std.txt");
+        Dict::load(&pathbuf.clone())
     }
 
     pub fn seek(&self, policy: Policy, _l: usize, _r: usize, offset: usize, ch: char) -> Option<usize> {
