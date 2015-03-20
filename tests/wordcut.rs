@@ -39,6 +39,4 @@ mod tests {
         let expected = "กาก|กา";
         assert_eq!(segmented_string, expected)
     }
-
-
 }
