@@ -9,7 +9,7 @@ documentation = "https://github.com/veer66/chamkho/blob/master/README.md"
 homepage = "https://github.com/veer66/chamkho/"
 repository = "https://github.com/veer66/chamkho.git"
 readme = "README.md"
-keywords = ["text processing", "natural language processing", "thai", "word segmentation"]
+keywords = ["text", "nlp", "thai", "library"]
 license = "BSD-2-Clause"
 license-file = "LICENSE"
 
