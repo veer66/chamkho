@@ -14,7 +14,6 @@ pub struct Dict {
 
 impl Dict {
     pub fn load<'a>(path: &Path) -> Result<Dict, &'a str> {
-        println!("{:?}", path);
         let mut f = match File::open(path) {
             Ok(f) => f,
             Err(_) => return Err("Cannot open dict")
