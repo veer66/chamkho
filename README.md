@@ -5,19 +5,19 @@ Thai word segmentation library in Rust
 
 ## As library
 
-     ```rust
-	 extern crate chamkho;
+```rust
+extern crate chamkho;
 
-	 use chamkho::wordcut::Wordcut;
-     use chamkho::dict::Dict;
+use chamkho::wordcut::Wordcut;
+use chamkho::dict::Dict;
 
-	 fn main() { 
-	     let dict = Dict::load_default();
-         let wordcut = Wordcut::new(dict.unwrap());
-         let segmented_string = wordcut.put_delimiters(&"กากกา".to_string(), "|");
-	     println!("{}", segmented_string);
-     }
-	 ```
+fn main() { 
+     let dict = Dict::load_default();
+     let wordcut = Wordcut::new(dict.unwrap());
+     let segmented_string = wordcut.put_delimiters(&"กากกา".to_string(), "|");
+     println!("{}", segmented_string);
+}
+```
 
 ## As command line
 
