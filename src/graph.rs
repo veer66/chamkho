@@ -18,7 +18,7 @@ impl Edge {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct TextRange {
     pub s: usize,
     pub e: usize
