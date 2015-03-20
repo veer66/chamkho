@@ -4,3 +4,15 @@ name = "chamkho"
 version = "0.0.1"
 authors = ["Vee Satayamas <vsatayamas@gmail.com>"]
 test = true
+description = "Thai word segmentation/breaking library and command line"
+documentation = "https://github.com/veer66/chamkho/blob/master/README.md"
+homepage = "https://github.com/veer66/chamkho/"
+repository = "https://github.com/veer66/chamkho.git"
+readme = "README.md"
+keywords = ["text processing", "natural language processing", "thai", "word segmentation"]
+license = "BSD-2-Clause"
+license-file = "LICENSE"
+
+[[bin]]
+name = "wordcut"
+path = "src/cli.rs"
