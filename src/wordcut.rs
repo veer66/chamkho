@@ -1,15 +1,12 @@
 #![feature(io)]
 #![feature(old_io)]
     
-mod dict;
-mod acc;
-mod graph;
 use dict::Dict;
 use graph::Graph;
 use std::old_io as io;
 
 fn main() {
-    let _dict = dict::Dict::load("tdict-std.txt").unwrap();
+    let _dict = Dict::load("tdict-std.txt").unwrap();
     let mut reader = io::stdin();
     let mut o = io::stdout();
     loop {
