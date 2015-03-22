@@ -11,7 +11,6 @@ repository = "https://github.com/veer66/chamkho.git"
 readme = "README.md"
 keywords = ["text", "nlp", "thai", "library"]
 license = "BSD-2-Clause"
-license-file = "LICENSE"
 
 [[bin]]
 name = "wordcut"
