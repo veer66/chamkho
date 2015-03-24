@@ -32,11 +32,11 @@ mod tests {
     }
 
     #[test]
-    fn test_segment_into_string_with_delimiter() {
+    fn test_space() {
         let dict = Dict::load_default();
         let wordcut = Wordcut::new(dict.unwrap());
-        let segmented_string = wordcut.put_delimiters(&"กากกา".to_string(), "|");
-        let expected = "กาก|กา";
-        assert_eq!(segmented_string, expected)
+        let words = wordcut.segment(&"a cat".to_string());
+        let expected = vec![TextRange{s:0,e:1},TextRange{s:1,e:2},TextRange{s:2,e:5}];
+        assert_eq!(words, expected)
     }
 }

@@ -1,6 +1,6 @@
 use dict::Dict;
 use graph_builder::GraphBuilder;
-use edge::{Edge,EdgeType};
+use edge::{Edge};
 
 #[derive(Debug, PartialEq)]
 pub struct TextRange {
@@ -29,6 +29,7 @@ impl Graph {
         let mut ranges: Vec<TextRange> = Vec::with_capacity(len);
         let mut e = len-1;
         while e > 0 {
+
             let edge = self.edges[e];
             let s = edge.p;
             ranges.push(TextRange{s:s, e:e});

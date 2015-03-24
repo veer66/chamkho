@@ -1,5 +1,11 @@
 #[derive(PartialEq, Eq, Copy, Debug)]
-pub enum EdgeType { INIT, DICT, UNK }
+pub enum EdgeType {
+    Init,
+    Dict,
+    Unk,
+    InSpace,
+    Space
+}
 
 #[derive(Copy, Debug)]
 pub struct Edge {
