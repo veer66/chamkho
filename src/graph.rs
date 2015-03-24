@@ -1,22 +1,6 @@
-use acc::DictAcc;
 use dict::Dict;
-
-#[derive(PartialEq, Eq, Copy, Debug)]
-enum EdgeType { INIT, DICT, UNK }
-
-#[derive(Copy, Debug)]
-struct Edge {
-    w: usize,
-    unk: usize,
-    p: usize,
-    etype: EdgeType
-}
-
-impl Edge {
-    fn better_than(&self, o: &Edge) -> bool {
-        (self.unk < o.unk) || (self.unk == o.unk && self.w < o.w)
-    }
-}
+use graph_builder::GraphBuilder;
+use edge::{Edge,EdgeType};
 
 #[derive(Debug, PartialEq)]
 pub struct TextRange {
@@ -26,71 +10,18 @@ pub struct TextRange {
 
 pub struct Graph {
     edges: Vec<Edge>,
-    txt: Vec<char>          
-}
-
-fn best_edge(edges: &Vec<Edge>) -> Option<&Edge> {
-    if edges.len() > 0 {
-        let mut best = &edges[0];
-        for i in 1..edges.len() {
-            if !best.better_than(&edges[i]) {
-                best = &edges[i];
-            }
-        }
-        Some(best)
-    } else {
-        None
-    }
+    txt: Vec<char>
 }
     
-fn transit(acc: &mut Vec<DictAcc>, ch: char, d: &Dict) -> Vec<DictAcc> {
-    acc.push(DictAcc::new(0, d.r()));
-    acc
-        .iter()
-        .map(|a| a.transit(ch, d))
-        .filter(|t| t.is_some())
-        .map(|t| t.unwrap())
-        .collect()
-}
-
-fn build_edges(i: usize, acc: &Vec<DictAcc>,
-               g: &Vec<Edge>, left: usize) -> Vec<Edge> {
-    let edges: Vec<Edge> = acc
-        .iter()
-        .filter(|a| a.is_final)
-        .map(|a| {
-            let p = 1 + i - a.offset;
-            let src = &g[p];
-            Edge{w:src.w+1, unk:src.unk, p:p, etype:EdgeType::DICT}
-        }).collect();
-    if edges.len() > 0 {
-        edges
-    } else {
-        let src = &g[left];
-        vec![Edge{w:src.w+1, unk:src.unk, p:left, etype:EdgeType::UNK}]
-    }
-}
-
 impl Graph {
-    pub fn build(_txt: &str, d: &Dict) -> Graph {
+    pub fn build(_txt: &str, dict: &Dict) -> Graph {
         let txt: Vec<char> = _txt.chars().collect();
-        let len = txt.len();
-        let mut g:Vec<Edge> = Vec::with_capacity(len + 1);
-        g.push(Edge{w:0, unk:0, p: 0, etype: EdgeType::INIT});
-        let mut acc: Vec<DictAcc> = vec![];
-        let mut left = 0;
-        
-        for i in 0..len {
-            let ch: char = txt[i];
-            acc = transit(&mut acc, ch, d);
-            let edges = build_edges(i, &acc, &g, left);
-            let e = best_edge(&edges).unwrap();
-            g.push(*e.clone());
-            if e.etype != EdgeType::UNK {
-                left = i + 1;
-            }                
+        let mut g = Vec::with_capacity(txt.len() + 1);
+        {
+            let mut builder = GraphBuilder::new(&txt, &mut g, dict);
+            builder.build();
         }
-        Graph{txt:txt, edges:g}
+        Graph{edges:g, txt:txt}
     }
 
     pub fn to_ranges(&self) -> Vec<TextRange> {
