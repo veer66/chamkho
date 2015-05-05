@@ -11,7 +11,8 @@ use wordcut::Wordcut;
 use dict::Dict;
 
 fn main() {
-    let dict = Dict::load_default();
+
+    let dict = Dict::load(Dict::default_path());
     let wordcut = Wordcut::new(dict.unwrap());
 
     for line in io::BufReader::new(io::stdin()).lines() {
