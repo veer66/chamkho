@@ -23,15 +23,13 @@ impl Dict {
             Ok(_) => (),
             Err(_) => return Err("Cannot read dict")
         };
-        let words = s.split("\n");
+        let words = s.split("\r\n");
         let wlst: Vec<Vec<char>> = words.map(|w| w.chars().collect()).collect();
         Ok(Dict{wlst:wlst})
     }
 
     pub fn load_default<'a>() -> Result<Dict, &'a str> {
-        let mut pathbuf = PathBuf::new(file!());
-        pathbuf.pop();       
-        pathbuf.push("tdict-std.txt");
+        let pathbuf = PathBuf::from("tdict-std.txt");
         Dict::load(&pathbuf.clone())
     }
 
