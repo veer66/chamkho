@@ -128,7 +128,7 @@ impl<'a> GraphBuilder<'a> {
         let edges = self.build_edges(i, *left);
         let e = best_edge(&edges).unwrap();
         let g = &mut self.g;
-        let _e = *e.clone();
+        let _e = e.clone();
         g.push(_e);
         if e.etype != EdgeType::Unk {
             *left = i + 1;

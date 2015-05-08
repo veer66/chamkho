@@ -1,4 +1,4 @@
-#[derive(PartialEq, Eq, Copy, Debug)]
+#[derive(Clone, PartialEq, Eq, Copy, Debug)]
 pub enum EdgeType {
     Init,
     Dict,
@@ -7,7 +7,7 @@ pub enum EdgeType {
     Space
 }
 
-#[derive(Copy, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct Edge {
     pub w: usize,
     pub unk: usize,

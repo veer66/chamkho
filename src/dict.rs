@@ -1,6 +1,5 @@
 use std::fs::File;
 use std::io::Read;
-use std::path::PathBuf;
 use std::path::Path;
 
 #[allow(dead_code)]
@@ -13,6 +12,12 @@ pub struct Dict {
 }
 
 impl Dict {
+    pub fn default_path() -> &'static Path {
+        Path::new(
+            concat!(env!("CARGO_MANIFEST_DIR"), 
+                    "/data/tdict-std.txt"))
+    }
+
     pub fn load<'a>(path: &Path) -> Result<Dict, &'a str> {
         let mut f = match File::open(path) {
             Ok(f) => f,
@@ -23,16 +28,9 @@ impl Dict {
             Ok(_) => (),
             Err(_) => return Err("Cannot read dict")
         };
-        let words = s.split("\n");
+        let words = s.split("\r\n");
         let wlst: Vec<Vec<char>> = words.map(|w| w.chars().collect()).collect();
         Ok(Dict{wlst:wlst})
-    }
-
-    pub fn load_default<'a>() -> Result<Dict, &'a str> {
-        let mut pathbuf = PathBuf::new(file!());
-        pathbuf.pop();       
-        pathbuf.push("tdict-std.txt");
-        Dict::load(&pathbuf.clone())
     }
 
     pub fn seek(&self, policy: Policy, _l: usize, _r: usize, offset: usize, ch: char) -> Option<usize> {
