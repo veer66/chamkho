@@ -14,8 +14,12 @@ pub struct Dict {
 impl Dict {
     pub fn default_path() -> &'static Path {
         Path::new(
-            concat!(env!("CARGO_MANIFEST_DIR"), 
+            concat!(env!("CARGO_MANIFEST_DIR"),
                     "/data/tdict-std.txt"))
+    }
+
+    pub fn create<'a>(words: &Vec<String>) -> Result<Dict, &'a str> {
+        Ok(Dict{wlst:words.iter().map(|w| w.chars().collect()).collect()})
     }
 
     pub fn load<'a>(path: &Path) -> Result<Dict, &'a str> {
@@ -28,7 +32,7 @@ impl Dict {
             Ok(_) => (),
             Err(_) => return Err("Cannot read dict")
         };
-        let words = s.split("\r\n");
+        let words = s.lines();
         let wlst: Vec<Vec<char>> = words.map(|w| w.chars().collect()).collect();
         Ok(Dict{wlst:wlst})
     }
@@ -58,7 +62,7 @@ impl Dict {
                     match policy {
                         Policy::Left => r = (m as i64) - 1,
                         Policy::Right => l = (m as i64) + 1
-                    }                    
+                    }
                 }
             }
         }

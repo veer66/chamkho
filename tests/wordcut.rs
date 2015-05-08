@@ -13,7 +13,14 @@ mod tests {
         assert!(dict.is_ok());
         assert!(dict.unwrap().r() > 10000);
     }
-    
+
+    #[test]
+    fn test_vec_dict() {
+        let dict = Dict::create(&vec!["ก".to_string(), "กา".to_string()]);
+        assert!(dict.is_ok());
+        assert!(dict.unwrap().r() == 1);
+    }
+
     #[test]
     fn test_segment_into_ranges() {
         let dict = Dict::load(Path::new("data/tdict-std.txt"));
