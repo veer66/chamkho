@@ -18,6 +18,12 @@ impl Dict {
                     "/data/tdict-std.txt"))
     }
 
+    pub fn lao_path() -> &'static Path {
+        Path::new(
+            concat!(env!("CARGO_MANIFEST_DIR"),
+                    "/data/laowords.txt"))
+    }
+
     pub fn create<'a>(words: &Vec<String>) -> Result<Dict, &'a str> {
         Ok(Dict{wlst:words.iter().map(|w| w.chars().collect()).collect()})
     }
