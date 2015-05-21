@@ -47,4 +47,13 @@ mod tests {
         let expected = vec![TextRange{s:0,e:1},TextRange{s:1,e:2},TextRange{s:2,e:5}];
         assert_eq!(words, expected)
     }
+
+    #[test]
+    fn test_lao() {
+        let dict = Dict::load(Dict::lao_path());
+        let wordcut = Wordcut::new(dict.unwrap());
+        let words = wordcut.segment(&"ພາສາລາວມີ".to_string());
+        let expected = vec![TextRange{s:0,e:4},TextRange{s:4,e:7},TextRange{s:7,e:9}];
+        assert_eq!(words, expected)
+    }
 }
