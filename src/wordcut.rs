@@ -1,6 +1,7 @@
 use dict::Dict;
 use graph::{Graph, TextRange};
 
+#[derive(Clone)]
 pub struct Wordcut {
     dict: Dict
 }

@@ -7,6 +7,7 @@ pub enum Policy {
     Left, Right
 }
 
+#[derive(Clone)]
 pub struct Dict {
     wlst: Vec<Vec<char>>
 }
