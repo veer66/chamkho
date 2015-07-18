@@ -3,7 +3,6 @@
 name = "chamkho"
 version = "0.0.5"
 authors = ["Vee Satayamas <vsatayamas@gmail.com>"]
-test = true
 description = "Thai word segmentation/breaking library and command line"
 documentation = "https://github.com/veer66/chamkho/blob/master/README.md"
 homepage = "https://github.com/veer66/chamkho/"
