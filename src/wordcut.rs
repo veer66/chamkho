@@ -22,6 +22,6 @@ impl Wordcut {
     }
 
     pub fn put_delimiters(&self, txt: &String, delim: &str) -> String {
-        self.segment_into_strings(txt).connect(delim)
+        self.segment_into_strings(txt).join(delim)
     }
 }
