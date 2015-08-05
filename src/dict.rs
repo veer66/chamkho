@@ -48,27 +48,27 @@ impl Dict {
         let mut ans: usize = 0;
         let mut found = false;
         let mut m: usize;
-        let mut l = _l as i64;
-        let mut r = _r as i64;
+        let mut l = _l as isize;
+        let mut r = _r as isize;
 
         while l <= r {
             m = ((l + r) / 2) as usize;
             let w = &self.wlst[m];
             let wlen = w.len();
             if wlen <= offset {
-                l = (m as i64) + 1;
+                l = (m as isize) + 1;
             } else {
                 let ch_ = w[offset];
                 if ch_ < ch {
-                    l = (m as i64) + 1;
+                    l = (m as isize) + 1;
                 } else if ch_ > ch {
-                    r = (m as i64) - 1;
+                    r = (m as isize) - 1;
                 } else {
                     ans = m;
                     found = true;
                     match policy {
-                        Policy::Left => r = (m as i64) - 1,
-                        Policy::Right => l = (m as i64) + 1
+                        Policy::Left => r = (m as isize) - 1,
+                        Policy::Right => l = (m as isize) + 1
                     }
                 }
             }
