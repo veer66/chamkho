@@ -40,6 +40,17 @@ mod tests {
     }
 
     #[test]
+    fn test_segment_with_punc() {
+        let dict = Dict::load(Path::new("data/tdict-std.txt"));
+        let wordcut = Wordcut::new(dict.unwrap());
+        let words = wordcut.segment_into_strings(&"\"กากา\"".to_string());
+        let expected = &vec!["\"", "กา", "กา", "\"",]
+            .iter()
+            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+        assert_eq!(words, expected)
+    }
+
+    #[test]
     fn test_space() {
         let dict = Dict::load(Path::new("data/tdict-std.txt"));
         let wordcut = Wordcut::new(dict.unwrap());

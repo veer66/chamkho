@@ -1,11 +1,11 @@
 use edge::{Edge,EdgeType};
 use dict::Dict;
 use acc::DictAcc;
-use space_acc::SpaceAcc;
+use punc_acc::PuncAcc;
 
 pub struct GraphBuilder<'a> {
     dict_acc: Vec<DictAcc>,
-    space_acc: SpaceAcc,
+    punc_acc: PuncAcc,
     dict: &'a Dict,
     pub g: &'a mut Vec<Edge>,
     pub txt: &'a Vec<char>
@@ -32,7 +32,7 @@ impl<'a> GraphBuilder<'a> {
                      dict:dict,
                      g:g,
                      txt:txt,
-                     space_acc:SpaceAcc::new()}
+                     punc_acc:PuncAcc::new()}
     }
 
     pub fn transit(&mut self, ch: char, nch: Option<char>) {
@@ -51,7 +51,7 @@ impl<'a> GraphBuilder<'a> {
     }
 
     fn transit_space(&mut self, ch: char, nch: Option<char>) {
-        self.space_acc.transit(ch, nch);
+        self.punc_acc.transit(ch, nch);
     }                   
 
     fn build_edges_from_dict(&mut self, i: usize) -> Vec<Edge> {
@@ -70,17 +70,17 @@ impl<'a> GraphBuilder<'a> {
     }
 
     fn build_edges_from_space(&mut self) -> Vec<Edge> {
-        if self.space_acc.is_text_final() {
-            let src = &self.g[self.space_acc.start];
+        if self.punc_acc.is_text_final() {
+            let src = &self.g[self.punc_acc.start];
             vec![Edge{w:src.w+1,
                       unk:src.unk,
-                      p:self.space_acc.start,
+                      p:self.punc_acc.start,
                       etype:EdgeType::InSpace}]
-        } else if self.space_acc.is_space_final() {
-            let src = &self.g[self.space_acc.start];
+        } else if self.punc_acc.is_space_final() {
+            let src = &self.g[self.punc_acc.start];
             vec![Edge{w:src.w+1,
                       unk:src.unk,
-                      p:self.space_acc.start,
+                      p:self.punc_acc.start,
                       etype:EdgeType::Space}]
         } else {
             vec![]

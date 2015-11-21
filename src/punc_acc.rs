@@ -8,19 +8,20 @@ enum State {
 }
 
 #[derive(Debug)]
-pub struct SpaceAcc {
+pub struct PuncAcc {
     i: usize,
     pub start: usize,
     state: State
 }
 
-impl SpaceAcc {
-    pub fn new() -> SpaceAcc {
-        SpaceAcc{start:0, i:0, state:State::Init}
+impl PuncAcc {
+    pub fn new() -> PuncAcc {
+        PuncAcc{start:0, i:0, state:State::Init}
     }
 
     fn is_space(&self, ch: char) -> bool {
         match ch {
+            '"' => true,
             ' ' => true,
             '\n' => true,
             '\t' => true,

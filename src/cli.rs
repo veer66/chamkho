@@ -3,7 +3,7 @@ mod edge;
 mod graph_builder;
 mod graph;
 mod acc;
-mod space_acc;
+mod punc_acc;
 mod wordcut;
 use std::io;
 use std::io::BufRead;
