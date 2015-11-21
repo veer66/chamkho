@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 #[derive(Debug, PartialEq)]
 enum State {
     Init,
@@ -11,28 +13,33 @@ enum State {
 pub struct PuncAcc {
     i: usize,
     pub start: usize,
-    state: State
+    state: State,
+    split_char: HashSet<char>
 }
 
 impl PuncAcc {
     pub fn new() -> PuncAcc {
-        PuncAcc{start:0, i:0, state:State::Init}
+        let mut split_char = HashSet::new();
+        split_char.insert('"');
+        split_char.insert('[');
+        split_char.insert(']');
+        split_char.insert('(');
+        split_char.insert(')');
+        split_char.insert(':');
+        split_char.insert(' ');
+        split_char.insert('\n');
+        split_char.insert('\t');
+        split_char.insert('\r');
+        PuncAcc{start:0, i:0, state:State::Init, split_char: split_char}
     }
 
-    fn is_space(&self, ch: char) -> bool {
-        match ch {
-            '"' => true,
-            ' ' => true,
-            '\n' => true,
-            '\t' => true,
-            '\r' => true,
-            _ => false
-        }
+    fn is_split_char(&self, ch: char) -> bool {
+        self.split_char.contains(&ch)
     }
 
     fn to_text_state(&mut self, nch: Option<char>) -> State {
         match nch {
-            Some(_nch) => if self.is_space(_nch) {
+            Some(_nch) => if self.is_split_char(_nch) {
                 State::TextFinal
             } else {
                 State::Text
@@ -43,7 +50,7 @@ impl PuncAcc {
 
     fn to_space_state(&mut self, nch: Option<char>) -> State {
         match nch {
-            Some(_nch) => if self.is_space(_nch) {
+            Some(_nch) => if self.is_split_char(_nch) {
                 State::Space
             } else {
                 State::SpaceFinal
@@ -53,7 +60,7 @@ impl PuncAcc {
     }
     
     fn to_another_state(&mut self, ch: char, nch: Option<char>) -> State {
-        if self.is_space(ch) {
+        if self.is_split_char(ch) {
             self.to_space_state(nch)
         } else {
             self.to_text_state(nch)
@@ -75,7 +82,7 @@ impl PuncAcc {
                 self.start = self.i;
                 self.state = self.to_text_state(nch)
             }
-            State::Space => if !self.is_space(ch) {
+            State::Space => if !self.is_split_char(ch) {
                 self.state = self.to_another_state(ch, nch);
             }
         };
