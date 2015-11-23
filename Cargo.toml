@@ -1,7 +1,7 @@
 [package]
 
 name = "chamkho"
-version = "0.0.7"
+version = "0.0.8"
 authors = ["Vee Satayamas <vsatayamas@gmail.com>"]
 description = "Thai word segmentation/breaking library and command line"
 documentation = "https://github.com/veer66/chamkho/blob/master/README.md"
@@ -9,7 +9,7 @@ homepage = "https://github.com/veer66/chamkho/"
 repository = "https://github.com/veer66/chamkho.git"
 readme = "README.md"
 keywords = ["text", "nlp", "lao", "thai", "library"]
-license = "BSD-2-Clause"
+license = "LGPL"
 
 [[bin]]
 name = "wordcut"
