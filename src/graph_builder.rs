@@ -89,13 +89,7 @@ impl<'a> GraphBuilder<'a> {
     }
 
     fn build_edges_from_space(&mut self) -> Vec<Edge> {
-        if self.punc_acc.is_text_final() {
-            let src = &self.g[self.punc_acc.start];
-            vec![Edge{w:src.w+1,
-                      unk:src.unk,
-                      p:self.punc_acc.start,
-                      etype:EdgeType::InSpace}]
-        } else if self.punc_acc.is_space_final() {
+        if self.punc_acc.is_space_final() {
             let src = &self.g[self.punc_acc.start];
             vec![Edge{w:src.w+1,
                       unk:src.unk,
@@ -151,6 +145,6 @@ impl<'a> GraphBuilder<'a> {
         g.push(_e);
         if e.etype != EdgeType::Unk {
             *left = i + 1;
-        }        
+        }
     }              
 }

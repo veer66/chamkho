@@ -102,10 +102,6 @@ impl PuncAcc {
         self.i += 1;
     }
 
-    pub fn is_text_final(&self) -> bool {
-        self.state == State::TextFinal
-    }
-
     pub fn is_space_final(&self) -> bool {
         self.state == State::SpaceFinal
     }

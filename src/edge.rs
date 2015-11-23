@@ -22,7 +22,6 @@ pub enum EdgeType {
     Init,
     Dict,
     Unk,
-    InSpace,
     Space
 }
 
