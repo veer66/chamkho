@@ -61,7 +61,27 @@ mod tests {
         assert_eq!(words, expected)
     }
 
-    
+    #[test]
+    fn test_segment_2spaces() {
+        let dict = Dict::load(Path::new("data/thai.txt"));
+        let wordcut = Wordcut::new(dict.unwrap());
+        let words = wordcut.segment_into_strings(&"กา  มา".to_string());
+        let expected = &vec!["กา", "  ", "มา"]
+            .iter()
+            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+        assert_eq!(words, expected)
+    }
+
+    #[test]
+    fn test_segment_2spaces_unk() {
+        let dict = Dict::load(Path::new("data/thai.txt"));
+        let wordcut = Wordcut::new(dict.unwrap());
+        let words = wordcut.segment_into_strings(&"ฮฮ  ญญ".to_string());
+        let expected = &vec!["ฮฮ", "  ", "ญญ"]
+            .iter()
+            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+        assert_eq!(words, expected)
+    }
 
     #[test]
     fn test_space() {

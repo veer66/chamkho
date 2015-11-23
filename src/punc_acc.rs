@@ -95,7 +95,7 @@ impl PuncAcc {
                 self.start = self.i;
                 self.state = self.to_text_state(nch)
             }
-            State::Space => if !self.is_split_char(ch) {
+            State::Space => {
                 self.state = self.to_another_state(ch, nch);
             }
         };
