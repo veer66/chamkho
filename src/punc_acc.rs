@@ -39,12 +39,6 @@ pub struct PuncAcc {
 impl PuncAcc {
     pub fn new() -> PuncAcc {
         let mut split_char = HashSet::new();
-        split_char.insert('"');
-        split_char.insert('[');
-        split_char.insert(']');
-        split_char.insert('(');
-        split_char.insert(')');
-        split_char.insert(':');
         split_char.insert(' ');
         split_char.insert('\n');
         split_char.insert('\t');

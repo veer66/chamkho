@@ -35,7 +35,7 @@ impl Dict {
     pub fn default_path() -> &'static Path {
         Path::new(
             concat!(env!("CARGO_MANIFEST_DIR"),
-                    "/data/tdict-std.txt"))
+                    "/data/thai.txt"))
     }
 
     pub fn lao_path() -> &'static Path {

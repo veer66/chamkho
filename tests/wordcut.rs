@@ -11,7 +11,7 @@ mod tests {
     fn test_default_dict() {
         let dict = Dict::load(Dict::default_path());
         assert!(dict.is_ok());
-        assert!(dict.unwrap().r() > 10000);
+        assert!(dict.unwrap_or_else(|e| panic!("Cannot open dict {}", e)).r() > 10000);
     }
 
     #[test]
@@ -23,7 +23,7 @@ mod tests {
 
     #[test]
     fn test_segment_into_ranges() {
-        let dict = Dict::load(Path::new("data/tdict-std.txt"));
+        let dict = Dict::load(Path::new("data/thai.txt"));
         let wordcut = Wordcut::new(dict.unwrap());
         let ranges = wordcut.segment(&"กากกา".to_string());
         let expected = vec![TextRange{s:0,e:3}, TextRange{s:3,e:5}];
@@ -32,7 +32,7 @@ mod tests {
 
     #[test]
     fn test_segment_into_strings() {
-        let dict = Dict::load(Path::new("data/tdict-std.txt"));
+        let dict = Dict::load(Path::new("data/thai.txt"));
         let wordcut = Wordcut::new(dict.unwrap());
         let words = wordcut.segment_into_strings(&"กากกา".to_string());
         let expected = vec!["กาก".to_string(), "กา".to_string()];
@@ -41,7 +41,7 @@ mod tests {
 
     #[test]
     fn test_segment_with_punc() {
-        let dict = Dict::load(Path::new("data/tdict-std.txt"));
+        let dict = Dict::load(Path::new("data/thai.txt"));
         let wordcut = Wordcut::new(dict.unwrap());
         let words = wordcut.segment_into_strings(&"\"กากา\"".to_string());
         let expected = &vec!["\"", "กา", "กา", "\"",]
@@ -52,7 +52,7 @@ mod tests {
 
     #[test]
     fn test_space() {
-        let dict = Dict::load(Path::new("data/tdict-std.txt"));
+        let dict = Dict::load(Path::new("data/thai.txt"));
         let wordcut = Wordcut::new(dict.unwrap());
         let words = wordcut.segment(&"a cat".to_string());
         let expected = vec![TextRange{s:0,e:1},TextRange{s:1,e:2},TextRange{s:2,e:5}];
