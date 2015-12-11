@@ -39,3 +39,7 @@ fn main() {
 ## As command line
 
     echo "กากกา" | wordcut 
+
+### External dictionary
+
+    echo "กากกา" | wordcut -d <path to dictionary>
