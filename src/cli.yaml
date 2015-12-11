@@ -1,5 +1,5 @@
 name: Chamkho
-version: 0.0.12
+version: 0.0.13
 author: Vee Satayamas <vsatayamas@gmail.com>
 about: Chamkho - Word breaker written in Rust
 args:
@@ -7,4 +7,9 @@ args:
       help: Dictionary path
       multiple: false
       short: d
+      takes_value: true
+  - lang:
+      help: Language
+      possible_values: [ thai, lao ]
+      short: l
       takes_value: true

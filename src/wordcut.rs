@@ -29,7 +29,8 @@ impl Wordcut {
     pub fn new(dict: Dict) -> Wordcut {
         Wordcut{dict: dict}
     }
-    
+
+    #[allow(dead_code)]
     pub fn segment(&self, txt: &String) -> Vec<TextRange> {
         let g = Graph::build(&txt[..], &self.dict);
         g.to_ranges()

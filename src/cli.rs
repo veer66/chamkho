@@ -36,15 +36,30 @@ use std::path::Path;
 fn main() {
     let yaml = load_yaml!("cli.yaml");
     let matches = App::from_yaml(yaml).get_matches();
+    let lang = matches.value_of("lang");
     let dict_path = match matches.value_of("dict_path") {
         Some(_dict_path) => Path::new(_dict_path),
-        None => Dict::default_path()
+        None => {
+            match lang {
+                Some("lao") => Dict::lao_path(),
+                Some("thai") | Some(_) | None => Dict::default_path()
+            }            
+        }
     };
     let dict = Dict::load(dict_path);
     let wordcut = Wordcut::new(dict.unwrap());
     
-    for line in io::BufReader::new(io::stdin()).lines() {
-        let cleaned_line = line.unwrap().trim_right_matches('\n').to_string();
+    for line_opt in io::BufReader::new(io::stdin()).lines() {
+
+        let cleaned_line = match line_opt {
+            Ok(line) => if line.len() > 0 {
+                line.trim_right_matches('\n').to_string()
+            } else {
+                line
+            },
+            Err(e) => panic!("Cannot read line {}", e)
+        };
+
         let segmented_string = wordcut.put_delimiters(&cleaned_line, "|");
         println!("{}", segmented_string);
     }

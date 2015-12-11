@@ -44,6 +44,7 @@ impl Dict {
                     "/data/laowords.txt"))
     }
 
+    #[allow(dead_code)]
     pub fn create<'a>(words: &Vec<String>) -> Result<Dict, &'a str> {
         Ok(Dict{wlst:words.iter().map(|w| w.chars().collect()).collect()})
     }
