@@ -16,6 +16,8 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+#[macro_use]
+extern crate clap;
 
 mod dict;
 mod edge;
@@ -28,12 +30,19 @@ use std::io;
 use std::io::BufRead;
 use wordcut::Wordcut;
 use dict::Dict;
+use clap::App;
+use std::path::Path;
 
 fn main() {
-
-    let dict = Dict::load(Dict::default_path());
+    let yaml = load_yaml!("cli.yaml");
+    let matches = App::from_yaml(yaml).get_matches();
+    let dict_path = match matches.value_of("dict_path") {
+        Some(_dict_path) => Path::new(_dict_path),
+        None => Dict::default_path()
+    };
+    let dict = Dict::load(dict_path);
     let wordcut = Wordcut::new(dict.unwrap());
-
+    
     for line in io::BufReader::new(io::stdin()).lines() {
         let cleaned_line = line.unwrap().trim_right_matches('\n').to_string();
         let segmented_string = wordcut.put_delimiters(&cleaned_line, "|");

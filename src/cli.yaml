@@ -1,0 +1,10 @@
+name: Chamkho
+version: 0.0.12
+author: Vee Satayamas <vsatayamas@gmail.com>
+about: Chamkho - Word breaker written in Rust
+args:
+  - dict_path:
+      help: Dictionary path
+      multiple: false
+      short: d
+      takes_value: true
