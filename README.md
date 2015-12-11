@@ -43,3 +43,7 @@ fn main() {
 ### External dictionary
 
     echo "กากกา" | wordcut -d <path to dictionary>
+
+### Specific language
+
+    echo "ພາສາລາວມີ" | wordcut -l lao
