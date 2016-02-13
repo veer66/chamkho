@@ -122,6 +122,7 @@ impl<'a> GraphBuilder<'a> {
         } else {
             None
         };
+
         let r = self.txt.len() - 1;
         
         for i in 0..r {

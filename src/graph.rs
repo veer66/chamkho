@@ -34,6 +34,10 @@ pub struct Graph {
     
 impl Graph {
     pub fn build(_txt: &str, dict: &Dict) -> Graph {
+        if _txt.len() == 0 {
+            return Graph{edges: vec![],
+                         txt: vec![]}
+        }
         let txt: Vec<char> = _txt.chars().collect();
         let mut g = Vec::with_capacity(txt.len() + 1);
         {
@@ -45,6 +49,11 @@ impl Graph {
 
     pub fn to_ranges(&self) -> Vec<TextRange> {
         let len = self.edges.len();
+
+        if len == 0 {
+            return vec![]
+        }
+        
         let mut ranges: Vec<TextRange> = Vec::with_capacity(len);
         let mut e = len-1;
         while e > 0 {
