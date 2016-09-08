@@ -43,6 +43,11 @@ impl PuncAcc {
         split_char.insert('\n');
         split_char.insert('\t');
         split_char.insert('\r');
+        split_char.insert('"');
+        split_char.insert('(');
+        split_char.insert(')');
+        split_char.insert('“');
+        split_char.insert('”');
         PuncAcc{start:0, i:0, state:State::Init, split_char: split_char}
     }
 
