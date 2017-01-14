@@ -46,6 +46,10 @@ fn main() {
             }            
         }
     };
+    let word_delim = match matches.value_of("word_delimiter") {
+        Some(word_delim) => word_delim,
+        None => "|"
+    };
     let dict = Dict::load(dict_path);
     let wordcut = Wordcut::new(dict.unwrap());
     
@@ -60,7 +64,7 @@ fn main() {
             Err(e) => panic!("Cannot read line {}", e)
         };
 
-        let segmented_string = wordcut.put_delimiters(&cleaned_line, "|");
+        let segmented_string = wordcut.put_delimiters(&cleaned_line, word_delim);
         println!("{}", segmented_string);
     }
 }

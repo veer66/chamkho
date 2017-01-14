@@ -8,6 +8,11 @@ args:
       multiple: false
       short: d
       takes_value: true
+  - word_delimiter:
+      help: Word delimiter e.g. white space
+      multiple: false
+      short: s
+      takes_value: true
   - lang:
       help: Language
       possible_values: [ thai, lao ]
