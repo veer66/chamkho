@@ -1,6 +1,6 @@
 [package]
 name = "chamkho"
-version = "0.0.14"
+version = "0.1.0"
 authors = ["Vee Satayamas <vsatayamas@gmail.com>"]
 description = "Lao/Thai word segmentation/breaking library and command line"
 documentation = "https://github.com/veer66/chamkho/blob/master/README.md"
@@ -16,3 +16,4 @@ path = "src/cli.rs"
 
 [dependencies]
 clap = { version = "1", features = ["yaml"] }
+prefixtree = "0.0.5"

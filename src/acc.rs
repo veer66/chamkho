@@ -17,31 +17,26 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-use dict::{Dict,Policy};
+use dict::Dict;
 
 #[derive(Debug)]
 pub struct DictAcc {
-    l: usize,
-    r: usize,
+    p: usize,
     pub offset: usize,
     pub is_final: bool
 }
 
 impl DictAcc {
-    pub fn new(l: usize, r: usize) -> DictAcc {
-        DictAcc{l:l, r:r, offset:0, is_final: false}
+    pub fn new(p: usize) -> DictAcc {
+        DictAcc{p:p, offset:0, is_final: false}
     }
 
     pub fn transit(&self, ch: char, d: &Dict) -> Option<DictAcc> {
-        match d.seek(Policy::Left, self.l, self.r, self.offset, ch) {
-            Some(l) => {
-                match d.seek(Policy::Right, l, self.r, self.offset, ch) {
-                    Some(r) => {
-                        Some(DictAcc{l:l, r:r, offset:self.offset+1,
-                                     is_final: d.is_final(self.offset+1, l)})
-                    },
-                    None => None
-                }
+        match d.seek(self.p, self.offset, ch) {
+            Some(&(next_p, is_final, _)) => {
+                Some(DictAcc{p:next_p as usize,
+                             offset:self.offset+1,
+                             is_final: is_final})
             },
             None => None
         }

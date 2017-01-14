@@ -11,14 +11,12 @@ mod tests {
     fn test_default_dict() {
         let dict = Dict::load(Dict::default_path());
         assert!(dict.is_ok());
-        assert!(dict.unwrap_or_else(|e| panic!("Cannot open dict {}", e)).r() > 10000);
     }
 
     #[test]
     fn test_vec_dict() {
         let dict = Dict::create(&vec!["ก".to_string(), "กา".to_string()]);
         assert!(dict.is_ok());
-        assert!(dict.unwrap().r() == 1);
     }
 
     #[test]

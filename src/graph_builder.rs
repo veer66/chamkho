@@ -60,7 +60,7 @@ impl<'a> GraphBuilder<'a> {
     }
 
     fn transit_dict(&mut self, ch: char) {
-        self.dict_acc.push(DictAcc::new(0, self.dict.r()));
+        self.dict_acc.push(DictAcc::new(0));
         self.dict_acc = self.dict_acc
             .iter()
             .map(|a| a.transit(ch, &self.dict))
