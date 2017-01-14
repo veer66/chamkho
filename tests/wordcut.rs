@@ -43,13 +43,35 @@ mod tests {
     fn test_segment_with_punc() {
         let dict = Dict::load(Path::new("data/thai.txt"));
         let wordcut = Wordcut::new(dict.unwrap());
-        let words = wordcut.segment_into_strings(&"\"กากา\"".to_string());
-        let expected = &vec!["\"", "กา", "กา", "\"",]
+        let words = wordcut.segment_into_strings(&"\"ฆกากา\"".to_string());
+        let expected = &vec!["\"", "ฆ", "กา", "กา", "\"",]
             .iter()
             .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
         assert_eq!(words, expected)
     }
 
+    #[test]
+    fn test_segment_with_parentheses() {
+        let dict = Dict::load(Path::new("data/thai.txt"));
+        let wordcut = Wordcut::new(dict.unwrap());
+        let words = wordcut.segment_into_strings(&"(ฆกากา)".to_string());
+        let expected = &vec!["(", "ฆ", "กา", "กา", ")",]
+            .iter()
+            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+        assert_eq!(words, expected)
+    }
+
+    #[test]
+    fn test_segment_with_unicode_quote() {
+        let dict = Dict::load(Path::new("data/thai.txt"));
+        let wordcut = Wordcut::new(dict.unwrap());
+        let words = wordcut.segment_into_strings(&"“ฆกากา”".to_string());
+        let expected = &vec!["“", "ฆ", "กา", "กา", "”",]
+            .iter()
+            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+        assert_eq!(words, expected)
+    }
+    
     #[test]
     fn test_segment_unknown_sandwich() {
         let dict = Dict::load(Path::new("data/thai.txt"));
