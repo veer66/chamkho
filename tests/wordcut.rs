@@ -104,6 +104,29 @@ mod tests {
     }
 
     #[test]
+    fn test_one_word() {
+        let dict = Dict::load(Path::new("data/thai.txt"));
+        let wordcut = Wordcut::new(dict.unwrap());
+        let words = wordcut.segment_into_strings(&"มาตรา".to_string());
+        let expected = &vec!["มาตรา"]
+            .iter()
+            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+        assert_eq!(words, expected)
+    }
+
+    #[test]
+    fn test_from_law() {
+        let dict = Dict::load(Path::new("data/thai.txt"));
+        let wordcut = Wordcut::new(dict.unwrap());
+        let words = wordcut.segment_into_strings(&"มาตรา 482 ผู้ขายไม่".to_string());
+        let expected = &vec!["มาตรา", " ", "482", " ", "ผู้", "ขาย", "ไม่"]
+            .iter()
+            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+        assert_eq!(words, expected)
+    }
+
+    
+    #[test]
     fn test_space() {
         let dict = Dict::load(Path::new("data/thai.txt"));
         let wordcut = Wordcut::new(dict.unwrap());
