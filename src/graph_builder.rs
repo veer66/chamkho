@@ -58,20 +58,12 @@ impl<'a> GraphBuilder<'a> {
             best_edge: None,
         };
         for i in 0..self.text.len() {
-            println!("----------------------------");
             context.ch = self.text[i];
             context.i = i;
             context.best_edge = None;
             for builder in &mut builders {
                 let edge = builder.build(&context, &self.path);
-                println!("!!! i={} ch={} LEFT={} EDGE = {:?} BEST={:?}",
-                         i,
-                         context.ch,
-                         context.left_boundary,
-                         edge,
-                         context.best_edge);
                 if Edge::better(&edge, &context.best_edge) {
-                    println!("@@@ EDGE = {:?}", edge);
                     context.best_edge = edge
                 }
             }

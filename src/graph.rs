@@ -45,7 +45,6 @@ impl Graph {
             let mut builder = GraphBuilder::new(&txt, &mut path, dict);
             builder.build();
         }
-        println!("{:?}", path);
         Graph {
             path: path,
             txt: txt,

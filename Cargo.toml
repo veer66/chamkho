@@ -17,3 +17,4 @@ path = "src/cli.rs"
 [dependencies]
 clap = { version = "1", features = ["yaml"] }
 prefixtree = "0.0.5"
+lazy_static = "0.2.2"
