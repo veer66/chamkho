@@ -16,18 +16,17 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#[macro_use]
-extern crate lazy_static;
 
-pub mod dict;
-mod edge;
-mod edge_builder;
-mod dict_edge_builder;
-mod unk_edge_builder;
-mod pat_edge_builder;
-mod punc_edge_builder;
-mod latin_edge_builder;
-mod graph_builder;
-pub mod graph;
-pub mod wordcut;
+use edge::Edge;
 
+pub trait EdgeBuilder {
+    fn build(&mut self, context: &EdgeBuildingContext, path: &[Edge]) -> Option<Edge>;
+}
+
+pub struct EdgeBuildingContext<'a> {
+    pub text: &'a Vec<char>,
+    pub i: usize,
+    pub ch: char,
+    pub left_boundary: usize,
+    pub best_edge: Option<Edge>
+}

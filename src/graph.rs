@@ -1,70 +1,75 @@
-/*
- * chamkho - a word breaker written in Rust
- * Copyright (C) 2015  Vee Satayamas
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
+// chamkho - a word breaker written in Rust
+// Copyright (C) 2015  Vee Satayamas
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 use dict::Dict;
 use graph_builder::GraphBuilder;
-use edge::{Edge};
+use edge::Edge;
 
 #[derive(Debug, PartialEq)]
 pub struct TextRange {
     pub s: usize,
-    pub e: usize
+    pub e: usize,
 }
 
 pub struct Graph {
-    edges: Vec<Edge>,
-    txt: Vec<char>
+    path: Vec<Edge>,
+    txt: Vec<char>,
 }
-    
+
 impl Graph {
     pub fn build(_txt: &str, dict: &Dict) -> Graph {
         if _txt.len() == 0 {
-            return Graph{edges: vec![],
-                         txt: vec![]}
+            return Graph {
+                path: vec![],
+                txt: vec![],
+            };
         }
         let txt: Vec<char> = _txt.chars().collect();
-        let mut g = Vec::with_capacity(txt.len() + 1);
+        let mut path = Vec::with_capacity(txt.len() + 1);
         {
-            let mut builder = GraphBuilder::new(&txt, &mut g, dict);
+            let mut builder = GraphBuilder::new(&txt, &mut path, dict);
             builder.build();
         }
-        Graph{edges:g, txt:txt}
+        println!("{:?}", path);
+        Graph {
+            path: path,
+            txt: txt,
+        }
     }
 
     pub fn to_ranges(&self) -> Vec<TextRange> {
-        let len = self.edges.len();
+        let len = self.path.len();
 
         if len == 0 {
-            return vec![]
+            return vec![];
         }
-        
+
         let mut ranges: Vec<TextRange> = Vec::with_capacity(len);
-        let mut e = len-1;
+        let mut e = len - 1;
         while e > 0 {
 
-            let edge = self.edges[e];
+            let edge = self.path[e];
             let s = edge.p;
-            ranges.push(TextRange{s:s, e:e});
-            e = s;            
+            ranges.push(TextRange { s: s, e: e });
+            e = s;
         }
         ranges.reverse();
-        return ranges
+        return ranges;
     }
 
     pub fn to_str_vec(&self) -> Vec<String> {

@@ -143,4 +143,16 @@ mod tests {
         let expected = vec![TextRange{s:0,e:4},TextRange{s:4,e:7},TextRange{s:7,e:9}];
         assert_eq!(words, expected)
     }
+
+    #[test]
+    fn test_latin() {
+        let dict = Dict::load(Dict::lao_path());
+        let wordcut = Wordcut::new(dict.unwrap());
+        let words = wordcut.segment_into_strings(&"ฑฑACญญ".to_string());
+        let expected = &vec!["ฑฑ", "AC", "ญญ"]
+            .iter()
+            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+        assert_eq!(words, expected)
+    }
+    
 }

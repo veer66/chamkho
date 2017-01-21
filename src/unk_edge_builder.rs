@@ -17,28 +17,29 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-use dict::Dict;
+use edge::{Edge,EdgeType};
+use edge_builder::{EdgeBuilder, EdgeBuildingContext};
 
-#[derive(Debug)]
-pub struct DictAcc {
-    p: usize,
-    pub offset: usize,
-    pub is_final: bool
+pub struct UnkEdgeBuilder {
 }
 
-impl DictAcc {
-    pub fn new(p: usize) -> DictAcc {
-        DictAcc{p:p, offset:0, is_final: false}
+impl UnkEdgeBuilder {
+    pub fn new() -> UnkEdgeBuilder {
+        UnkEdgeBuilder{}
     }
+}
 
-    pub fn transit(&self, ch: char, d: &Dict) -> Option<DictAcc> {
-        match d.seek(self.p, self.offset, ch) {
-            Some(&(next_p, is_final, _)) => {
-                Some(DictAcc{p:next_p as usize,
-                             offset:self.offset+1,
-                             is_final: is_final})
-            },
-            None => None
+impl EdgeBuilder for UnkEdgeBuilder {
+    fn build(&mut self, context: &EdgeBuildingContext, path: &[Edge]) -> Option<Edge> {
+        if context.best_edge.is_some() {
+            return None
         }
+
+        let source = path[context.left_boundary];
+        Some(Edge{p: context.left_boundary,
+                  etype: EdgeType::Unk,
+                  unk: source.unk + 1,
+                  w: source.w + 1})
     }
 }
+

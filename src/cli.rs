@@ -19,12 +19,20 @@
 #[macro_use]
 extern crate clap;
 
+#[macro_use]
+extern crate lazy_static;
+
+
 mod dict;
 mod edge;
+mod edge_builder;
+mod dict_edge_builder;
+mod unk_edge_builder;
+mod pat_edge_builder;
+mod punc_edge_builder;
+mod latin_edge_builder;
 mod graph_builder;
 mod graph;
-mod acc;
-mod punc_acc;
 mod wordcut;
 use std::io;
 use std::io::BufRead;

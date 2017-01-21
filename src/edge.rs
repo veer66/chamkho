@@ -22,7 +22,8 @@ pub enum EdgeType {
     Init,
     Dict,
     Unk,
-    Space
+    Punc,
+    Latin
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -34,7 +35,44 @@ pub struct Edge {
 }
 
 impl Edge {
+
+    pub fn is_unk(&self) -> bool {
+        self.etype == EdgeType::Unk
+    }
+    
     pub fn better_than(&self, o: &Edge) -> bool {
-        (self.unk < o.unk) || (self.unk == o.unk && self.w < o.w)
+        if self.unk < o.unk {
+            return true
+        }
+
+        if self.unk > o.unk {
+            return false
+        }
+
+        if self.w < o.w {
+            return true
+        }
+
+        if self.w > o.w {
+            return false
+        }
+
+        if o.is_unk() && !self.is_unk() {
+            return true
+        }
+
+        return false
+    }
+
+    pub fn better(a :&Option<Edge>, b:&Option<Edge>) -> bool {
+        if a.is_none() {
+            return false
+        }
+
+        if b.is_none() {
+            return true
+        }
+
+        return a.unwrap().better_than(&b.unwrap());
     }
 }
