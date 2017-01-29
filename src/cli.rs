@@ -22,6 +22,9 @@ extern crate clap;
 #[macro_use]
 extern crate lazy_static;
 
+extern crate threadpool;
+extern crate num_cpus;
+
 
 mod dict;
 mod edge;
@@ -41,6 +44,16 @@ use dict::Dict;
 use clap::App;
 use std::path::Path;
 
+use threadpool::ThreadPool;
+use std::sync::{Arc};
+use std::sync::mpsc::channel;
+use std::collections::HashMap;
+
+struct TaskResult {
+    line_number: usize,
+    segmented_string: String,
+}
+
 fn main() {
     let yaml = load_yaml!("cli.yaml");
     let matches = App::from_yaml(yaml).get_matches();
@@ -51,18 +64,21 @@ fn main() {
             match lang {
                 Some("lao") => Dict::lao_path(),
                 Some("thai") | Some(_) | None => Dict::default_path()
-            }            
+            }
         }
     };
-    let word_delim = match matches.value_of("word_delimiter") {
-        Some(word_delim) => word_delim,
-        None => "|"
-    };
-    let dict = Dict::load(dict_path);
-    let wordcut = Wordcut::new(dict.unwrap());
-    
-    for line_opt in io::BufReader::new(io::stdin()).lines() {
 
+    let dict = Dict::load(dict_path).unwrap();
+    let wordcut = Arc::new(Wordcut::new(dict));
+
+
+    let n_workers = num_cpus::get();
+    let pool = ThreadPool::new(n_workers);
+    let mut count_line: usize = 0;
+    let (tx, rx) = channel();
+    for line_opt in io::BufReader::new(io::stdin()).lines() {
+        let tx = tx.clone();
+        let wordcut = wordcut.clone();
         let cleaned_line = match line_opt {
             Ok(line) => if line.len() > 0 {
                 line.trim_right_matches('\n').to_string()
@@ -71,8 +87,18 @@ fn main() {
             },
             Err(e) => panic!("Cannot read line {}", e)
         };
+        pool.execute(move|| {
+            let segmented_string = wordcut.put_delimiters(&cleaned_line, "|");
+            tx.send(TaskResult{line_number: count_line, segmented_string: segmented_string}).unwrap();
+        });
+        count_line = count_line + 1;
+    }
 
-        let segmented_string = wordcut.put_delimiters(&cleaned_line, word_delim);
-        println!("{}", segmented_string);
+    let mut results = HashMap::new();
+    for result in rx.iter().take(count_line) {
+        results.insert(result.line_number, result.segmented_string);
+    }
+    for i in 0..count_line {
+        println!("{}", results.get(&i).unwrap())
     }
 }
