@@ -22,11 +22,11 @@ extern crate prefixtree;
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;
-use self::prefixtree::PrefixTree;
+use self::prefixtree::{PrefixTree, prefix_tree_from_str};
 
 #[derive(Clone)]
 pub struct Dict {
-    prefix_tree: PrefixTree<bool>,
+    prefix_tree: PrefixTree<char, bool>,
 }
 
 impl Dict {
@@ -46,7 +46,7 @@ impl Dict {
     pub fn create<'a>(words: &Vec<String>) -> Result<Dict, &'a str> {
         let words_payloads: Vec<(&str, bool)> =
             words.iter().map(|word| (&word[..], true)).collect();
-        Ok(Dict{prefix_tree:PrefixTree::new(&words_payloads[..])})
+        Ok(Dict{prefix_tree: prefix_tree_from_str(&words_payloads[..])})
     }
 
     pub fn load<'a>(path: &Path) -> Result<Dict, &'a str> {
@@ -64,7 +64,7 @@ impl Dict {
         let words_payloads: Vec<(&str, bool)>
             = words.iter().map(|word| (&word[..], true)).collect();
 
-        Ok(Dict{prefix_tree:PrefixTree::new(&words_payloads[..])})
+        Ok(Dict{prefix_tree: prefix_tree_from_str(&words_payloads[..])})
     }
 
     pub fn seek(&self, p: usize, offset: usize, ch: char) -> Option<&(u32,bool,Option<bool>)> {
