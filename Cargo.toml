@@ -1,6 +1,6 @@
 [package]
 name = "chamkho"
-version = "0.2.2"
+version = "0.3.0" 
 authors = ["Vee Satayamas <vsatayamas@gmail.com>"]
 description = "Lao/Thai word segmentation/breaking library and command line"
 documentation = "https://github.com/veer66/chamkho/blob/master/README.md"
@@ -16,5 +16,4 @@ path = "src/cli.rs"
 
 [dependencies]
 clap = { version = "1", features = ["yaml"] }
-prefixtree = "0.1.2"
-lazy_static = "0.2.2"
+wordcut-engine = "0.1.1"

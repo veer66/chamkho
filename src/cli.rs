@@ -19,25 +19,10 @@
 #[macro_use]
 extern crate clap;
 
-#[macro_use]
-extern crate lazy_static;
+mod lib;
 
-
-mod dict;
-mod edge;
-mod edge_builder;
-mod dict_edge_builder;
-mod unk_edge_builder;
-mod pat_edge_builder;
-mod punc_edge_builder;
-mod latin_edge_builder;
-mod graph_builder;
-mod graph;
-mod wordcut;
 use std::io;
 use std::io::BufRead;
-use wordcut::Wordcut;
-use dict::Dict;
 use clap::App;
 use std::path::Path;
 
@@ -49,8 +34,8 @@ fn main() {
         Some(_dict_path) => Path::new(_dict_path),
         None => {
             match lang {
-                Some("lao") => Dict::lao_path(),
-                Some("thai") | Some(_) | None => Dict::default_path()
+                Some("lao") => lib::lao_path(),
+                Some("thai") | Some(_) | None => lib::default_path()
             }            
         }
     };
@@ -58,9 +43,9 @@ fn main() {
         Some(word_delim) => word_delim,
         None => "|"
     };
-    let dict = Dict::load(dict_path);
-    let wordcut = Wordcut::new(dict.unwrap());
-    
+    let dict = lib::load_dict(dict_path).unwrap();
+    let wordcut = lib::Wordcut::new(dict);
+        
     for line_opt in io::BufReader::new(io::stdin()).lines() {
 
         let cleaned_line = match line_opt {
