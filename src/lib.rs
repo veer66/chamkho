@@ -25,6 +25,10 @@ use self::wordcut_engine::Dict;
 
 pub type Wordcut = self::wordcut_engine::Wordcut;
 
+pub fn cargo_dir() -> &'static Path {
+    Path::new(env!("CARGO_MANIFEST_DIR"))
+}
+
 pub fn default_path() -> &'static Path {
     Path::new(
         concat!(env!("CARGO_MANIFEST_DIR"),
@@ -188,5 +192,11 @@ mod tests {
             .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
         assert_eq!(words, expected)
     }
-    
+
+    #[test]
+    fn test_get_cargo_dir() {
+	let cargo_dir = super::cargo_dir().to_str().unwrap();
+	assert!(cargo_dir.find(".cargo").is_some());
+    }
 }
+
