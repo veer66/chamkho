@@ -50,7 +50,7 @@ fn main() {
 
         let cleaned_line = match line_opt {
             Ok(line) => if line.len() > 0 {
-                line.trim_right_matches('\n').to_string()
+                line.trim_end_matches('\n').to_string()
             } else {
                 line
             },
