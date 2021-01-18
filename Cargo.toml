@@ -1,7 +1,7 @@
 [package]
 name = "chamkho"
-version = "0.3.0" 
-authors = ["Vee Satayamas <vsatayamas@gmail.com>"]
+version = "0.3.1" 
+authors = ["Vee Satayamas <5ssgdxltv@relay.firefox.com>"]
 description = "Lao/Thai word segmentation/breaking library and command line"
 documentation = "https://github.com/veer66/chamkho/blob/master/README.md"
 homepage = "https://github.com/veer66/chamkho"
