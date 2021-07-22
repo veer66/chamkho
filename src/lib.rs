@@ -19,9 +19,9 @@
 
 pub extern crate wordcut_engine;
 
-use std::path::Path;
-use std::io::Result;
 use self::wordcut_engine::Dict;
+use std::io::Result;
+use std::path::Path;
 
 pub type Wordcut = self::wordcut_engine::Wordcut;
 
@@ -31,20 +31,15 @@ pub fn cargo_dir() -> &'static Path {
 }
 
 pub fn default_path() -> &'static Path {
-    Path::new(
-        concat!(env!("CARGO_MANIFEST_DIR"),
-                "/data/words_th.txt"))
+    Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/data/words_th.txt"))
 }
 
 pub fn lao_path() -> &'static Path {
-    Path::new(
-        concat!(env!("CARGO_MANIFEST_DIR"),
-                "/data/laowords.txt"))
+    Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/data/laowords.txt"))
 }
 
 pub fn thai_cluster_path() -> Option<String> {
-    Some(concat!(env!("CARGO_MANIFEST_DIR"),
-                 "/data/thai_cluster_rules.txt").to_owned())
+    Some(concat!(env!("CARGO_MANIFEST_DIR"), "/data/thai_cluster_rules.txt").to_owned())
 }
 
 pub fn lao_clusters_path() -> Option<String> {
@@ -57,10 +52,10 @@ pub fn load_dict(path: &Path) -> Result<Dict> {
 
 #[cfg(test)]
 mod tests {
-    use std::path::Path;
     use super::wordcut_engine::TextRange;
     use super::Wordcut;
-    
+    use std::path::Path;
+
     #[test]
     fn test_default_dict() {
         let dict = super::load_dict(super::default_path());
@@ -72,7 +67,7 @@ mod tests {
         let dict = super::load_dict(Path::new("data/thai.txt")).unwrap();
         let wordcut = Wordcut::new(dict);
         let ranges = wordcut.segment("กากกา");
-        let expected = vec![TextRange{s:0,e:3}, TextRange{s:3,e:5}];
+        let expected = vec![TextRange { s: 0, e: 3 }, TextRange { s: 3, e: 5 }];
         assert_eq!(ranges, expected)
     }
 
@@ -90,9 +85,10 @@ mod tests {
         let dict = super::load_dict(Path::new("data/thai.txt"));
         let wordcut = Wordcut::new(dict.unwrap());
         let words = wordcut.segment_into_strings("\"ฆกากา\"");
-        let expected = &vec!["\"", "ฆ", "กา", "กา", "\"",]
+        let expected = &vec!["\"", "ฆ", "กา", "กา", "\""]
             .iter()
-            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+            .map(|&s| s.to_string())
+            .collect::<Vec<String>>()[..];
         assert_eq!(words, expected)
     }
 
@@ -101,9 +97,10 @@ mod tests {
         let dict = super::load_dict(Path::new("data/thai.txt"));
         let wordcut = Wordcut::new(dict.unwrap());
         let words = wordcut.segment_into_strings(&"(ฆกากา)".to_string());
-        let expected = &vec!["(", "ฆ", "กา", "กา", ")",]
+        let expected = &vec!["(", "ฆ", "กา", "กา", ")"]
             .iter()
-            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+            .map(|&s| s.to_string())
+            .collect::<Vec<String>>()[..];
         assert_eq!(words, expected)
     }
 
@@ -112,12 +109,13 @@ mod tests {
         let dict = super::load_dict(Path::new("data/thai.txt"));
         let wordcut = Wordcut::new(dict.unwrap());
         let words = wordcut.segment_into_strings("“ฆกากา”");
-        let expected = &vec!["“", "ฆ", "กา", "กา", "”",]
+        let expected = &vec!["“", "ฆ", "กา", "กา", "”"]
             .iter()
-            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+            .map(|&s| s.to_string())
+            .collect::<Vec<String>>()[..];
         assert_eq!(words, expected)
     }
-    
+
     #[test]
     fn test_segment_unknown_sandwich() {
         let dict = super::load_dict(Path::new("data/thai.txt"));
@@ -125,7 +123,8 @@ mod tests {
         let words = wordcut.segment_into_strings("ฮฮกาฮฮ");
         let expected = &vec!["ฮฮ", "กา", "ฮฮ"]
             .iter()
-            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+            .map(|&s| s.to_string())
+            .collect::<Vec<String>>()[..];
         assert_eq!(words, expected)
     }
 
@@ -136,7 +135,8 @@ mod tests {
         let words = wordcut.segment_into_strings("กา  มา");
         let expected = &vec!["กา", "  ", "มา"]
             .iter()
-            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+            .map(|&s| s.to_string())
+            .collect::<Vec<String>>()[..];
         assert_eq!(words, expected)
     }
 
@@ -147,7 +147,8 @@ mod tests {
         let words = wordcut.segment_into_strings("ฮฮ  ญญ");
         let expected = &vec!["ฮฮ", "  ", "ญญ"]
             .iter()
-            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+            .map(|&s| s.to_string())
+            .collect::<Vec<String>>()[..];
         assert_eq!(words, expected)
     }
 
@@ -158,7 +159,8 @@ mod tests {
         let words = wordcut.segment_into_strings("มาตรา");
         let expected = &vec!["มาตรา"]
             .iter()
-            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+            .map(|&s| s.to_string())
+            .collect::<Vec<String>>()[..];
         assert_eq!(words, expected)
     }
 
@@ -169,17 +171,21 @@ mod tests {
         let words = wordcut.segment_into_strings("มาตรา 482 ผู้ขายไม่");
         let expected = &vec!["มาตรา", " ", "482", " ", "ผู้", "ขาย", "ไม่"]
             .iter()
-            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+            .map(|&s| s.to_string())
+            .collect::<Vec<String>>()[..];
         assert_eq!(words, expected)
     }
 
-    
     #[test]
     fn test_space() {
         let dict = super::load_dict(Path::new("data/thai.txt"));
         let wordcut = Wordcut::new(dict.unwrap());
         let words = wordcut.segment("a cat");
-        let expected = vec![TextRange{s:0,e:1},TextRange{s:1,e:2},TextRange{s:2,e:5}];
+        let expected = vec![
+            TextRange { s: 0, e: 1 },
+            TextRange { s: 1, e: 2 },
+            TextRange { s: 2, e: 5 },
+        ];
         assert_eq!(words, expected)
     }
 
@@ -188,7 +194,11 @@ mod tests {
         let dict = super::load_dict(super::lao_path());
         let wordcut = Wordcut::new(dict.unwrap());
         let words = wordcut.segment(&"ພາສາລາວມີ".to_string());
-        let expected = vec![TextRange{s:0,e:4},TextRange{s:4,e:7},TextRange{s:7,e:9}];
+        let expected = vec![
+            TextRange { s: 0, e: 4 },
+            TextRange { s: 4, e: 7 },
+            TextRange { s: 7, e: 9 },
+        ];
         assert_eq!(words, expected)
     }
 
@@ -199,14 +209,14 @@ mod tests {
         let words = wordcut.segment_into_strings(&"ฑฑACญญ".to_string());
         let expected = &vec!["ฑฑ", "AC", "ญญ"]
             .iter()
-            .map(|&s| s.to_string()).collect::<Vec<String>>()[..];
+            .map(|&s| s.to_string())
+            .collect::<Vec<String>>()[..];
         assert_eq!(words, expected)
     }
 
     #[test]
     fn test_get_cargo_dir() {
-	let cargo_dir = super::cargo_dir().to_str().unwrap();
-	assert!(cargo_dir.len() > 0);
+        let cargo_dir = super::cargo_dir().to_str().unwrap();
+        assert!(cargo_dir.len() > 0);
     }
 }
-
