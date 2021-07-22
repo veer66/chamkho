@@ -44,7 +44,20 @@ fn main() {
         None => "|"
     };
     let dict = lib::load_dict(dict_path).unwrap();
-    let wordcut = lib::Wordcut::new(dict);
+
+    let cluster_rule_path = match lang {
+        Some("lao") => lib::lao_clusters_path(),
+        Some("thai") | Some(_) | None => lib::thai_cluster_path(),
+    };
+
+    
+    let wordcut = match cluster_rule_path {
+        Some(cluster_rule_path) => {
+            let cluster_re = lib::wordcut_engine::load_cluster_rules(Path::new(&cluster_rule_path)).unwrap();
+            lib::Wordcut::new_with_cluster_re(dict, cluster_re)
+        },
+        None => lib::Wordcut::new(dict),
+    };
         
     for line_opt in io::BufReader::new(io::stdin()).lines() {
 

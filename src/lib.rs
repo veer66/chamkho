@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-extern crate wordcut_engine;
+pub extern crate wordcut_engine;
 
 use std::path::Path;
 use std::io::Result;
@@ -33,13 +33,22 @@ pub fn cargo_dir() -> &'static Path {
 pub fn default_path() -> &'static Path {
     Path::new(
         concat!(env!("CARGO_MANIFEST_DIR"),
-                "/data/thai.txt"))
+                "/data/words_th.txt"))
 }
 
 pub fn lao_path() -> &'static Path {
     Path::new(
         concat!(env!("CARGO_MANIFEST_DIR"),
                 "/data/laowords.txt"))
+}
+
+pub fn thai_cluster_path() -> Option<String> {
+    Some(concat!(env!("CARGO_MANIFEST_DIR"),
+                 "/data/thai_cluster_rules.txt").to_owned())
+}
+
+pub fn lao_clusters_path() -> Option<String> {
+    None
 }
 
 pub fn load_dict(path: &Path) -> Result<Dict> {
