@@ -1,6 +1,10 @@
 # Chamkho
 Khmer, Lao, Myanmar, and Thai word segmentation/breaking library and command line
 
+## Algorithm
+
+https://github.com/veer66/wordcut-engine
+
 ## Usage
 
 ### As command line
