@@ -1,6 +1,6 @@
 [package]
 name = "chamkho"
-version = "0.4.0" 
+version = "0.5.0" 
 authors = ["Vee Satayamas <5ssgdxltv@relay.firefox.com>"]
 description = "Lao/Thai word segmentation/breaking library and command line"
 documentation = "https://github.com/veer66/chamkho/blob/master/README.md"
@@ -8,7 +8,7 @@ homepage = "https://github.com/veer66/chamkho"
 repository = "https://github.com/veer66/chamkho"
 readme = "README.md"
 keywords = ["text", "nlp", "lao", "thai", "library"]
-license = "LGPL-3.0"
+license = "Apache-2.0"
 
 [[bin]]
 name = "wordcut"
@@ -16,4 +16,4 @@ path = "src/cli.rs"
 
 [dependencies]
 clap = { version = "1", features = ["yaml"] }
-wordcut-engine = "0.3.1"
+wordcut-engine = { version = "0.5.0" }

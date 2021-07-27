@@ -28,7 +28,7 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "chamkho"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "clap",
  "wordcut-engine",
@@ -215,9 +215,9 @@ checksum = "d7cff876b8f18eed75a66cf49b65e7f967cb354a7aa16003fb55dbfd25b44b4f"
 
 [[package]]
 name = "wordcut-engine"
-version = "0.3.1"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0fab66455e2f2eb0d09bd286a3a4cbf52065ae4f304216b1dedefe1525af4219"
+checksum = "22504505ba5c85d496d25b272fdb7e975693672aa75f204e01532b43d4c62a99"
 dependencies = [
  "anyhow",
  "lazy_static",
