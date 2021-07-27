@@ -59,13 +59,7 @@ fn main() {
 
     for line_opt in io::BufReader::new(io::stdin()).lines() {
         let cleaned_line = match line_opt {
-            Ok(line) => {
-                if line.len() > 0 {
-                    line.trim_end_matches('\n').to_string()
-                } else {
-                    line
-                }
-            }
+            Ok(line) => line.trim_end_matches('\n').to_string(),
             Err(e) => panic!("Cannot read line {}", e),
         };
 
