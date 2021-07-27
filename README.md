@@ -1,16 +1,17 @@
 # Chamkho
 Lao/Thai word segmentation library in Rust
 
-# Usage
+## Usage
 
-## As command line
+### As command line
 
     echo "กากกา" | wordcut 
 
-### External dictionary
+#### External dictionary
 
     echo "กากกา" | wordcut -d <path to dictionary>
 
-### Specific language
+#### Specific language
 
     echo "ພາສາລາວມີ" | wordcut -l lao
+
