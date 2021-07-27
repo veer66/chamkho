@@ -21,6 +21,10 @@ echo "ພາສາລາວມີ" | wordcut -l lao
 echo នៅក្នុងការប្រកបរបរអាជីវកម្ | wordcut -l khmer
 ```
 
+```Bash
+echo မြန်မာမှာ | wordcut -l myanmar
+```
+
 ## Benchmark
 
 ### Setup

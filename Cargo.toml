@@ -1,6 +1,6 @@
 [package]
 name = "chamkho"
-version = "0.6.0"
+version = "1.0.0"
 edition = "2018"
 authors = ["Vee Satayamas <5ssgdxltv@relay.firefox.com>"]
 description = "Lao/Thai word segmentation/breaking library and command line"

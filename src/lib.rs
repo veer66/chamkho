@@ -23,6 +23,10 @@ pub fn khmer_dict_path() -> &'static Path {
     Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/data/khmerdict.txt"))
 }
 
+pub fn myanmar_dict_path() -> &'static Path {
+    Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/data/myanmar-dict.txt"))
+}
+
 pub fn thai_cluster_path() -> Option<String> {
     Some(concat!(env!("CARGO_MANIFEST_DIR"), "/data/thai_cluster_rules.txt").to_owned())
 }
@@ -32,6 +36,10 @@ pub fn lao_clusters_path() -> Option<String> {
 }
 
 pub fn khmer_clusters_path() -> Option<String> {
+    None
+}
+
+pub fn myanmar_clusters_path() -> Option<String> {
     None
 }
 

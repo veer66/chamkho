@@ -17,6 +17,7 @@ fn main() {
         None => match lang {
             Some("lao") => lib::lao_path(),
             Some("khmer") => lib::khmer_dict_path(),
+            Some("myanmar") => lib::myanmar_dict_path(),
             Some("thai") | Some(_) | None => lib::default_path(),
         },
     };
@@ -29,6 +30,7 @@ fn main() {
     let cluster_rule_path = match lang {
         Some("lao") => lib::lao_clusters_path(),
         Some("khmer") => lib::khmer_clusters_path(),
+        Some("myanmar") => lib::myanmar_clusters_path(),
         Some("thai") | Some(_) | None => lib::thai_cluster_path(),
     };
 
