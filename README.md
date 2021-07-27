@@ -1,5 +1,5 @@
 # Chamkho
-Lao/Thai word segmentation library in Rust
+Khmer/Lao/Thai word segmentation library in Rust
 
 ## Usage
 
@@ -13,7 +13,13 @@ Lao/Thai word segmentation library in Rust
 
 #### Specific language
 
-    echo "ພາສາລາວມີ" | wordcut -l lao
+```Bash
+echo "ພາສາລາວມີ" | wordcut -l lao
+```
+
+```Bash
+echo នៅក្នុងការប្រកបរបរអាជីវកម្ | wordcut -l khmer
+```
 
 ## Benchmark
 
