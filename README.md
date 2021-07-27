@@ -1,5 +1,5 @@
 # Chamkho
-Khmer/Lao/Thai word segmentation library in Rust
+Khmer/Lao/Myanmar/Thai word segmentation library in Rust
 
 ## Usage
 
