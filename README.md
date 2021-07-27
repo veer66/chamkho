@@ -75,3 +75,6 @@ real    1m40.263s
 real    1m36.523s
 ```
 
+#### Average
+* nlpo3: 193.21s
+* chamkho:  99.44s
