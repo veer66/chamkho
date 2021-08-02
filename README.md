@@ -92,3 +92,83 @@ real    1m36.523s
 #### Average
 * nlpo3: 193.21s
 * chamkho:  99.44s
+
+
+## Benchmark 2
+
+### Setup
+
+* Computer: Scaleway's Macmini M1
+* Rustc: rustc 1.54.0 (a178d0322 2021-07-26)
+* Python: Python 3.8.2
+* OS: Darwin 506124d8-4acf-4595-9d46-8ca4b44b8110 20.6.0 Darwin Kernel Version 20.6.0: Wed Jun 23 00:26:27 PDT 2021; root:xnu-7195.141.2~5/RELEASE_ARM64_T8101 arm64
+* Script:
+
+```Bash
+#!/bin/bash
+
+set -x
+
+INPUT=thwik-head1m.txt
+
+for i in {1..10}
+do
+  { time python3 newmm.py < $INPUT > newmm.out ; } 2>> bench_newmm.txt
+  { time wordcut < $INPUT > cham.out ; } 2>> bench_chamkho.txt
+done
+```
+* PyThaiNLP: 2.3.1
+* chamkho version: 1.0.2
+* dataset: https://file.veer66.rocks/langbench/thwik-head1m.txt
+
+### Result
+
+#### newmm
+
+```
+$ grep real bench_newmm.txt
+real    7m40.693s
+real    7m40.623s
+real    7m41.623s
+real    7m40.438s
+real    7m41.363s
+real    7m39.108s
+real    7m39.486s
+real    7m39.946s
+real    7m39.960s
+real    7m40.279s
+```
+
+#### chamko
+
+```
+real    1m2.110s
+real    1m2.200s
+real    1m1.954s
+real    1m1.823s
+real    1m1.836s
+real    1m1.864s
+real    1m1.638s
+real    1m1.641s
+real    1m1.688s
+real    1m1.923s
+```
+
+#### Average
+* newmm
+
+```
+$ grep real bench_newmm.txt | ruby -lane 'BEGIN { all = 0.0; cnt = 0 }; cols = $F[1].split(/[ms]/).map {|x| x.to_f }; v = cols[0]*60 + cols[1]; all += v; cnt += 1; END { p all/cnt}'
+460.3519
+```
+
+* chamkho: 
+
+```
+$ grep real bench_chamkho.txt  | ruby -lane 'BEGIN { all = 0.0; cnt = 0 }; cols = $F[1].split(/[ms]/).map {|x| x.to_f }; v = cols[0]*60 + cols[1]; all += v; cnt += 1; END { p all/cnt}'
+61.8677
+```
+
+#### Performance ratio
+
+7.4
