@@ -43,7 +43,7 @@ fn main() {
         None => lib::Wordcut::new(dict),
     };
 
-    for line_opt in io::BufReader::new(io::stdin()).lines() {
+    for line_opt in io::stdin().lock().lines() {
         let cleaned_line = match line_opt {
             Ok(line) => line.trim_end_matches('\n').to_string(),
             Err(e) => panic!("Cannot read line {}", e),
