@@ -126,7 +126,6 @@ done
 #### newmm
 
 ```
-$ grep real bench_newmm.txt
 real    7m40.693s
 real    7m40.623s
 real    7m41.623s
