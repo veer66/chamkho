@@ -96,9 +96,11 @@ real    1m36.523s
 
 ## Benchmark 2
 
+Chamkho and Newmm on Mac mini M1
+
 ### Setup
 
-* Computer: Scaleway's Macmini M1
+* Computer: Scaleway's Mac mini M1
 * Rustc: rustc 1.54.0 (a178d0322 2021-07-26)
 * Python: Python 3.8.2
 * OS: Darwin 506124d8-4acf-4595-9d46-8ca4b44b8110 20.6.0 Darwin Kernel Version 20.6.0: Wed Jun 23 00:26:27 PDT 2021; root:xnu-7195.141.2~5/RELEASE_ARM64_T8101 arm64
@@ -171,3 +173,85 @@ $ grep real bench_chamkho.txt  | ruby -lane 'BEGIN { all = 0.0; cnt = 0 }; cols 
 #### Performance ratio
 
 7.4
+
+## Benchmark 3
+
+Chamkho and Newmm on Xeon
+
+### Setup
+
+* Computer: Hetzner's CX11
+* Rustc: rustc 1.54.0 (a178d0322 2021-07-26)
+* Python: Python 3.9.6
+* OS: Linux fedora-2gb-hel1-1 5.12.15-300.fc34.x86_64 #1 SMP Wed Jul 7 19:46:50 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
+* Script:
+
+```Bash
+#!/bin/bash
+set -x
+
+INPUT=thwik-head1m.txt
+
+for i in {1..10}
+do
+  { time python newmm.py < $INPUT > newmm.out ; } 2>> bench_newmm.txt
+  { time wordcut < $INPUT > cham.out ; } 2>> bench_chamkho.txt
+done
+```
+
+* PyThaiNLP: 2.3.1
+* chamkho version: 1.0.2
+* dataset: https://file.veer66.rocks/langbench/thwik-head1m.txt
+
+### Result
+
+#### newmm
+
+```
+# grep real bench_newmm.txt 
+real    17m15.608s
+real    17m14.038s
+real    17m7.864s
+real    17m17.329s
+real    17m5.501s
+real    17m10.841s
+real    17m16.348s
+real    17m19.813s
+real    17m28.796s
+real    17m26.056s
+```
+
+#### chamko
+
+```
+# grep real bench_chamkho.txt 
+real    1m46.157s
+real    1m47.785s
+real    1m47.173s
+real    1m45.656s
+real    1m45.554s
+real    1m46.612s
+real    1m48.991s
+real    1m49.656s
+real    1m47.677s
+real    1m47.876s
+```
+
+#### Average
+* newmm
+
+```
+# grep real bench_newmm.txt | ruby -lane 'BEGIN { all = 0.0; cnt = 0 }; cols = $F[1].split(/[ms]/).map {|x| x.to_f }; v = cols[0]*60 + cols[1]; all += v; cnt += 1; END { p all/cnt}'
+1036.2194000000002
+```
+
+* chamkho: 
+
+```
+$ # grep real bench_chamkho.txt  | ruby -lane 'BEGIN { all = 0.0; cnt = 0 }; cols = $F[1].split(/[ms]/).map {|x| x.to_f }; v = cols[0]*60 + cols[1]; all += v; cnt += 1; END { p all/cnt}'
+107.31370000000001
+```
+
+#### Performance ratio
+
+9.65
