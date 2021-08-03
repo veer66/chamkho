@@ -255,3 +255,87 @@ $ # grep real bench_chamkho.txt  | ruby -lane 'BEGIN { all = 0.0; cnt = 0 }; col
 #### Performance ratio
 
 9.65
+
+
+
+## Benchmark 4
+
+Chamkho and Nlpo3 on Mac mini M1
+
+### Setup
+
+* Computer: Scaleway's Mac mini M1
+* Rustc: rustc 1.54.0 (a178d0322 2021-07-26)
+* OS: Darwin 506124d8-4acf-4595-9d46-8ca4b44b8110 20.6.0 Darwin Kernel Version 20.6.0: Wed Jun 23 00:26:27 PDT 2021; root:xnu-7195.141.2~5/RELEASE_ARM64_T8101 arm64
+* Script:
+
+```Bash
+#!/bin/bash
+
+set -x
+
+INPUT=thwik-head1m.txt
+
+for i in {1..10}
+do
+  { time wordcut < $INPUT > newmm.out ; } 2>> bench_chamkho.txt
+  { time nlpo3 segment < $INPUT > cham.out ; } 2>> bench_o3.txt
+done
+```
+
+* nlpo3-cli version: 0.0.1
+* chamkho version: 1.0.2
+* dataset: https://file.veer66.rocks/langbench/thwik-head1m.txt
+
+### Result
+
+#### nlpo3
+
+```
+% grep real bench_o3.txt       
+real    2m7.639s
+real    2m7.024s
+real    2m6.296s
+real    2m7.731s
+real    2m7.873s
+real    2m7.028s
+real    2m6.411s
+real    2m6.974s
+real    2m7.746s
+real    2m6.955s
+```
+
+#### chamko
+
+```
+% grep real bench_chamkho.txt 
+real    1m0.237s
+real    1m1.799s
+real    1m1.752s
+real    1m1.373s
+real    1m1.128s
+real    1m1.870s
+real    1m1.878s
+real    1m1.709s
+real    1m1.690s
+real    1m1.030s
+```
+
+#### Average
+* nlpo3
+
+```
+% grep real bench_o3.txt | ruby -lane 'BEGIN { all = 0.0; cnt = 0 }; cols = $F[1].split(/[ms]/).map {|x| x.to_f }; v = cols[0]*60 + cols[1]; all += v; cnt += 1; END { p all/cnt}'
+127.1677
+```
+
+* chamkho: 
+
+```
+% grep real bench_chamkho.txt | ruby -lane 'BEGIN { all = 0.0; cnt = 0 }; cols = $F[1].split(/[ms]/).map {|x| x.to_f }; v = cols[0]*60 + cols[1]; all += v; cnt += 1; END { p all/cnt}' 
+61.44659999999999
+```
+    
+#### Performance ratio
+
+2.07
