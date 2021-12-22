@@ -7,6 +7,12 @@ https://github.com/veer66/wordcut-engine
 
 ## Usage
 
+### Running in a standalone release
+
+```
+echo ฉันกินปลา | ./wordcut -d words_th.txt -c thai_cluster_rules.txt
+```
+
 ### As command line
 
     echo "กากกา" | wordcut 

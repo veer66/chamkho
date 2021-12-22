@@ -27,11 +27,15 @@ fn main() {
     };
     let dict = lib::load_dict(dict_path).unwrap();
 
-    let cluster_rule_path = match lang {
-        Some("lao") => lib::lao_clusters_path(),
-        Some("khmer") => lib::khmer_clusters_path(),
-        Some("myanmar") => lib::myanmar_clusters_path(),
-        Some("thai") | Some(_) | None => lib::thai_cluster_path(),
+    let cluster_rule_path = if let Some(cluster_rules_path) = matches.value_of("cluster_rules_path") {
+	Some(cluster_rules_path.to_string())
+    } else {
+	match lang {
+            Some("lao") => lib::lao_clusters_path(),
+            Some("khmer") => lib::khmer_clusters_path(),
+            Some("myanmar") => lib::myanmar_clusters_path(),
+            Some("thai") | Some(_) | None => lib::thai_cluster_path(),
+	}
     };
 
     let wordcut = match cluster_rule_path {
