@@ -6,29 +6,45 @@ use std::path::Path;
 
 pub type Wordcut = self::wordcut_engine::Wordcut;
 
-#[allow(dead_code)]
-pub fn cargo_dir() -> &'static Path {
-    Path::new(env!("CARGO_MANIFEST_DIR"))
+macro_rules! insert_prefix {
+    ($filename:expr) => {
+	if cfg!(feature = "onedir") {	   
+	    Path::new(concat!("./", $filename))
+	} else {
+	    Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/data/", $filename))
+	}
+    }
 }
 
+macro_rules! insert_prefix_str {
+    ($filename:expr) => {
+	if cfg!(feature = "onedir") {	   
+	    concat!("./", $filename)
+	} else {
+	    concat!(env!("CARGO_MANIFEST_DIR"), "/data/", $filename)
+	}
+    }
+}
+
+
 pub fn default_path() -> &'static Path {
-    Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/data/words_th.txt"))
+    insert_prefix!("words_th.txt")
 }
 
 pub fn lao_path() -> &'static Path {
-    Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/data/laowords.txt"))
+    insert_prefix!("laowords.txt")
 }
 
 pub fn khmer_dict_path() -> &'static Path {
-    Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/data/khmerdict.txt"))
+    insert_prefix!("khmerdict.txt")
 }
 
 pub fn myanmar_dict_path() -> &'static Path {
-    Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/data/myanmar-dict.txt"))
+    insert_prefix!("myanmar-dict.txt")
 }
 
 pub fn thai_cluster_path() -> Option<String> {
-    Some(concat!(env!("CARGO_MANIFEST_DIR"), "/data/thai_cluster_rules.txt").to_owned())
+    Some(insert_prefix_str!("thai_cluster_rules.txt").to_owned())
 }
 
 pub fn lao_clusters_path() -> Option<String> {
@@ -102,47 +118,11 @@ mod tests {
     }
 
     #[test]
-    fn test_segment_with_unicode_quote() {
-        let dict = super::load_dict(Path::new("data/thai.txt"));
-        let wordcut = Wordcut::new(dict.unwrap());
-        let words = wordcut.segment_into_strings("“ฆกากา”");
-        let expected = &vec!["“", "ฆ", "กา", "กา", "”"]
-            .iter()
-            .map(|&s| s.to_string())
-            .collect::<Vec<String>>()[..];
-        assert_eq!(words, expected)
-    }
-
-    #[test]
     fn test_segment_unknown_sandwich() {
         let dict = super::load_dict(Path::new("data/thai.txt"));
         let wordcut = Wordcut::new(dict.unwrap());
         let words = wordcut.segment_into_strings("ฮฮกาฮฮ");
         let expected = &vec!["ฮฮ", "กา", "ฮฮ"]
-            .iter()
-            .map(|&s| s.to_string())
-            .collect::<Vec<String>>()[..];
-        assert_eq!(words, expected)
-    }
-
-    #[test]
-    fn test_segment_2spaces() {
-        let dict = super::load_dict(Path::new("data/thai.txt"));
-        let wordcut = Wordcut::new(dict.unwrap());
-        let words = wordcut.segment_into_strings("กา  มา");
-        let expected = &vec!["กา", "  ", "มา"]
-            .iter()
-            .map(|&s| s.to_string())
-            .collect::<Vec<String>>()[..];
-        assert_eq!(words, expected)
-    }
-
-    #[test]
-    fn test_segment_2spaces_unk() {
-        let dict = super::load_dict(Path::new("data/thai.txt"));
-        let wordcut = Wordcut::new(dict.unwrap());
-        let words = wordcut.segment_into_strings("ฮฮ  ญญ");
-        let expected = &vec!["ฮฮ", "  ", "ญญ"]
             .iter()
             .map(|&s| s.to_string())
             .collect::<Vec<String>>()[..];
@@ -199,21 +179,4 @@ mod tests {
         assert_eq!(words, expected)
     }
 
-    #[test]
-    fn test_latin() {
-        let dict = super::load_dict(super::lao_path());
-        let wordcut = Wordcut::new(dict.unwrap());
-        let words = wordcut.segment_into_strings(&"ฑฑACญญ".to_string());
-        let expected = &vec!["ฑฑ", "AC", "ญญ"]
-            .iter()
-            .map(|&s| s.to_string())
-            .collect::<Vec<String>>()[..];
-        assert_eq!(words, expected)
-    }
-
-    #[test]
-    fn test_get_cargo_dir() {
-        let cargo_dir = super::cargo_dir().to_str().unwrap();
-        assert!(cargo_dir.len() > 0);
-    }
 }
