@@ -7,10 +7,13 @@ https://github.com/veer66/wordcut-engine
 
 ## Usage
 
-### Running in a standalone release
+### Binary tarball
 
 ```
-echo ฉันกินปลา | ./wordcut -d words_th.txt -c thai_cluster_rules.txt
+$ wget -q https://github.com/veer66/chamkho/releases/download/1.1.0/chamkho-1.1.0-linux-amd64.tar.gz -O - | tar -xzf -
+$ cd chamkho-1.1.0-linux-amd64/
+$ echo ฉันง่วงมาก | ./wordcut 
+ฉัน|ง่วง|มาก
 ```
 
 ### As command line
