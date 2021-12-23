@@ -9,10 +9,23 @@ https://github.com/veer66/wordcut-engine
 
 ### Binary tarball
 
+#### On GNU/Linux
 ```
 $ wget -q https://github.com/veer66/chamkho/releases/download/1.1.0/chamkho-1.1.0-linux-amd64.tar.gz -O - | tar -xzf -
 $ cd chamkho-1.1.0-linux-amd64/
 $ echo ฉันง่วงมาก | ./wordcut 
+ฉัน|ง่วง|มาก
+```
+
+#### On Windows Powershell
+
+```
+PS C:\ex1> $OutputEncoding = [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
+PS C:\ex1> Invoke-WebRequest -uri https://github.com/veer66/chamkho/releases/download/1.1.0/chamkho-1.1.0-windows-amd64.zip -OutFile chamkho.zip
+PS C:\ex1> Expand-Archive -Path .\chamkho.zip -DestinationPath .
+PS C:\ex1> cd .\chamkho-1.1.0-windows-amd64\
+PS C:\ex1\chamkho-1.1.0-windows-amd64> echo ฉันง่วงมาก | .\wordcut.
+exe
 ฉัน|ง่วง|มาก
 ```
 
