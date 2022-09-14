@@ -1,40 +1,57 @@
-#[macro_use]
-extern crate clap;
-
 mod lib;
 
-use clap::App;
+use clap::Parser;
 use std::io;
 use std::io::BufRead;
 use std::path::Path;
 
+#[derive(clap::ValueEnum, Clone, Debug)]
+enum Lang {
+    Lao,
+    Khmer,
+    Myanmar,
+    Thai,
+}
+
+#[derive(Parser, Debug)]
+#[clap(author, version, about, long_about = None)]
+struct Args {
+    #[clap(short, long, value_parser)]
+    dict_path: Option<String>,
+    #[clap(short, long, value_parser)]
+    cluster_rules_path: Option<String>,
+    #[clap(short = 's', long, value_parser)]
+    word_delimiter: Option<String>,
+    #[clap(short, long, value_parser, value_enum)]
+    lang: Option<Lang>,
+}
+
 fn main() {
-    let yaml = load_yaml!("cli.yaml");
-    let matches = App::from_yaml(yaml).get_matches();
-    let lang = matches.value_of("lang");
-    let dict_path = match matches.value_of("dict_path") {
-        Some(_dict_path) => Path::new(_dict_path),
+    let args = Args::parse();
+    let lang = args.lang;
+    let dict_path = match args.dict_path.as_ref() {
+        Some(dict_path) => Path::new(dict_path),
         None => match lang {
-            Some("lao") => lib::lao_path(),
-            Some("khmer") => lib::khmer_dict_path(),
-            Some("myanmar") => lib::myanmar_dict_path(),
-            Some("thai") | Some(_) | None => lib::default_path(),
+            Some(Lang::Lao) => lib::lao_path(),
+            Some(Lang::Khmer) => lib::khmer_dict_path(),
+            Some(Lang::Myanmar) => lib::myanmar_dict_path(),
+            Some(Lang::Thai) | None => lib::default_path(),
         },
     };
-    let word_delim = match matches.value_of("word_delimiter") {
+    let word_delim = match args.word_delimiter.as_ref().map(|delim| delim.as_str()) {
         Some(word_delim) => word_delim,
         None => "|",
     };
     let dict = lib::load_dict(dict_path).unwrap();
 
-    let cluster_rule_path = if let Some(cluster_rules_path) = matches.value_of("cluster_rules_path") {
+    let cluster_rule_path = if let Some(cluster_rules_path) = args.cluster_rules_path {
         Some(cluster_rules_path.to_string())
     } else {
         match lang {
-            Some("lao") => lib::lao_clusters_path(),
-            Some("khmer") => lib::khmer_clusters_path(),
-            Some("myanmar") => lib::myanmar_clusters_path(),
-            Some("thai") | Some(_) | None => lib::thai_cluster_path(),
+            Some(Lang::Lao) => lib::lao_clusters_path(),
+            Some(Lang::Khmer) => lib::khmer_clusters_path(),
+            Some(Lang::Myanmar) => lib::myanmar_clusters_path(),
+            Some(Lang::Thai) | None => lib::thai_cluster_path(),
         }
     };
 

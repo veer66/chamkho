@@ -8,24 +8,23 @@ pub type Wordcut = self::wordcut_engine::Wordcut;
 
 macro_rules! insert_prefix {
     ($filename:expr) => {
-	if cfg!(feature = "onedir") {	   
-	    Path::new(concat!("./", $filename))
-	} else {
-	    Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/data/", $filename))
-	}
-    }
+        if cfg!(feature = "onedir") {
+            Path::new(concat!("./", $filename))
+        } else {
+            Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/data/", $filename))
+        }
+    };
 }
 
 macro_rules! insert_prefix_str {
     ($filename:expr) => {
-	if cfg!(feature = "onedir") {	   
-	    concat!("./", $filename)
-	} else {
-	    concat!(env!("CARGO_MANIFEST_DIR"), "/data/", $filename)
-	}
-    }
+        if cfg!(feature = "onedir") {
+            concat!("./", $filename)
+        } else {
+            concat!(env!("CARGO_MANIFEST_DIR"), "/data/", $filename)
+        }
+    };
 }
-
 
 pub fn default_path() -> &'static Path {
     insert_prefix!("words_th.txt")
@@ -178,5 +177,4 @@ mod tests {
         ];
         assert_eq!(words, expected)
     }
-
 }
