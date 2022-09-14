@@ -62,6 +62,10 @@ pub fn load_dict(path: &Path) -> Result<Dict> {
     self::wordcut_engine::load_dict(path)
 }
 
+pub fn thai_replace_rules_path() -> Option<String> {
+    Some(insert_prefix_str!("thai-replace-rules.json").to_owned())
+}
+
 #[cfg(test)]
 mod tests {
     use super::wordcut_engine::TextRange;

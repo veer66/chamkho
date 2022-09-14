@@ -4,6 +4,7 @@ use clap::Parser;
 use std::io;
 use std::io::BufRead;
 use std::path::Path;
+use wordcut_engine::replacer;
 
 #[derive(clap::ValueEnum, Clone, Debug)]
 enum Lang {
@@ -64,13 +65,20 @@ fn main() {
         None => lib::Wordcut::new(dict),
     };
 
+    let replace_rules = match lang {
+        Some(Lang::Thai) | None => lib::thai_replace_rules_path()
+            .map(|path| replacer::load_imm_rules(&path).expect("Load replace rules"))
+            .unwrap_or(vec![]),
+        _ => vec![],
+    };
+
     for line_opt in io::stdin().lock().lines() {
         let cleaned_line = match line_opt {
             Ok(line) => line.trim_end_matches('\n').to_string(),
             Err(e) => panic!("Cannot read line {}", e),
         };
-
-        let segmented_string = wordcut.put_delimiters(&cleaned_line, word_delim);
+        let mod_line = replacer::replace(&replace_rules, &cleaned_line);
+        let segmented_string = wordcut.put_delimiters(&mod_line, word_delim);
         println!("{}", segmented_string);
     }
 }

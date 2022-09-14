@@ -1,6 +1,6 @@
 [package]
 name = "chamkho"
-version = "1.2.0"
+version = "1.3.0"
 edition = "2018"
 authors = ["Vee Satayamas <vsatayamas@gmail.com>"]
 description = "Khmer, Lao, Myanmar, and Thai word segmentation/breaking library and command line"
@@ -21,4 +21,4 @@ path = "src/cli.rs"
 [dependencies]
 proc-macro2 = "1.0.42"
 clap = { version = "3", features = ["derive"] }
-wordcut-engine = { version = "1.0.0" }
+wordcut-engine = { version = "1.1.3" }
