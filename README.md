@@ -5,6 +5,10 @@ Khmer, Lao, Myanmar, and Thai word segmentation/breaking library and command lin
 
 https://github.com/veer66/wordcut-engine
 
+## C-ABI Library
+
+https://github.com/veer66/wordcutw
+
 ## Usage
 
 ### Binary tarball
