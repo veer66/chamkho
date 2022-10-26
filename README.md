@@ -55,6 +55,13 @@ echo នៅក្នុងការប្រកបរបរអាជីវកម
 echo မြန်မာမှာ | wordcut -l myanmar
 ```
 
+#### WebAssembly
+
+```Bash
+cargo build --target=wasm32-wasi
+wasmtime --dir=$(pwd)/data target/wasm32-wasi/debug/wordcut.wasm
+```
+
 ## Benchmark
 
 ### Setup
