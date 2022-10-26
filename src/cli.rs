@@ -23,6 +23,8 @@ struct Args {
     cluster_rules_path: Option<String>,
     #[clap(short = 's', long, value_parser)]
     word_delimiter: Option<String>,
+    #[clap(short = 'r', long, value_parser)]
+    replace_rules_path: Option<String>,
     #[clap(short, long, value_parser, value_enum)]
     lang: Option<Lang>,
 }
@@ -65,11 +67,19 @@ fn main() {
         None => lib::Wordcut::new(dict),
     };
 
-    let replace_rules = match lang {
-        Some(Lang::Thai) | None => lib::thai_replace_rules_path()
-            .map(|path| replacer::load_imm_rules(&path).expect("Load replace rules"))
-            .unwrap_or(vec![]),
-        _ => vec![],
+    let replace_rules_path = if let Some(replace_rules_path) = args.replace_rules_path {
+        Some(replace_rules_path)
+    } else {
+        match lang {
+            Some(Lang::Thai) | None => lib::thai_replace_rules_path(),
+            _ => None,
+        }
+    };
+
+    let replace_rules = if let Some(replace_rules_path) = replace_rules_path {
+        replacer::load_imm_rules(&replace_rules_path).expect("Load replace rules")
+    } else {
+        vec![]
     };
 
     for line_opt in io::stdin().lock().lines() {
