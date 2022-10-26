@@ -20,5 +20,5 @@ path = "src/cli.rs"
 
 [dependencies]
 proc-macro2 = "1.0.42"
-clap = { version = "3", features = ["derive"] }
+clap = { version = "4", features = ["derive"] }
 wordcut-engine = { version = "1.1.4" }
