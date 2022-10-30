@@ -58,7 +58,22 @@ echo မြန်မာမှာ | wordcut -l myanmar
 #### WebAssembly
 
 ```Bash
+# Add wasm32-wasi target
+rustup target add wasm32-wasi
+
+# Install wasmtime (macOS) https://docs.wasmtime.dev/cli-install.html
+curl https://wasmtime.dev/install.sh -sSf | bash
+
+# Source (or restart terminal)
+source ~/.zshrc
+
+# Build
 cargo build --target=wasm32-wasi
+
+# Run with input
+echo "ฉันง่วงมาก" | wasmtime --dir=$(pwd)/data target/wasm32-wasi/debug/wordcut.was
+
+# Run and wait for input
 wasmtime --dir=$(pwd)/data target/wasm32-wasi/debug/wordcut.wasm
 ```
 
