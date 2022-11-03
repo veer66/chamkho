@@ -13,12 +13,21 @@ https://github.com/veer66/wordcutw
 
 ### Binary tarball
 
+#### On Google Colab
+
+```
+!wget -q https://github.com/veer66/chamkho/releases/download/1.4.0/chamkho-1.4.0-linux-x64-musl.tar.gz -O - | tar -xzf -
+with open('input.txt', 'w') as f:
+  f.write(u'กาเตเภไก่')
+!cd chamkho-1.4.0-linux-x64-musl; ./wordcut < ../input.txt; cd ..
+```
+
 #### On GNU/Linux
 ```
-$ wget -q https://github.com/veer66/chamkho/releases/download/1.1.0/chamkho-1.1.0-linux-amd64.tar.gz -O - | tar -xzf -
-$ cd chamkho-1.1.0-linux-amd64/
-$ echo ฉันง่วงมาก | ./wordcut 
-ฉัน|ง่วง|มาก
+wget -q https://github.com/veer66/chamkho/releases/download/1.4.0/chamkho-1.4.0-linux-x64-musl.tar.gz -O - | tar -xzf - 
+cd chamkho-1.4.0-linux-x64-musl
+echo กากากา | ./wordcut
+cd ..
 ```
 
 #### On Windows Powershell
