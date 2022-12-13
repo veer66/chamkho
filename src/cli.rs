@@ -1,9 +1,9 @@
-mod lib;
+pub mod lib;
 
 use clap::Parser;
 use std::io;
 use std::io::BufRead;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use wordcut_engine::replacer;
 
 #[derive(clap::ValueEnum, Clone, Debug)]
@@ -27,6 +27,16 @@ struct Args {
     replace_rules_path: Option<String>,
     #[clap(short, long, value_parser, value_enum)]
     lang: Option<Lang>,
+}
+
+pub fn join_data_path(base_path: &str) -> PathBuf {
+    let mut buf = PathBuf::new();
+    if !cfg!(feature = "onedir") {
+        buf.push(env!("CARGO_MANIFEST_DIR"));
+	buf.push("data");
+    }
+    buf.push(base_path);
+    return buf
 }
 
 fn main() {

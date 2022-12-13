@@ -25,7 +25,7 @@ macro_rules! insert_prefix_str {
         }
     };
 }
-
+  
 pub fn default_path() -> &'static Path {
     insert_prefix!("words_th.txt")
 }
@@ -51,7 +51,7 @@ pub fn lao_clusters_path() -> Option<String> {
 }
 
 pub fn khmer_clusters_path() -> Option<String> {
-    None
+    Some(insert_prefix_str!("khmer_cluster_rules.txt").to_owned())
 }
 
 pub fn myanmar_clusters_path() -> Option<String> {
