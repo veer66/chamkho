@@ -1,5 +1,4 @@
-pub mod lib;
-
+mod init;
 use clap::Parser;
 use std::io;
 use std::io::BufRead;
@@ -45,43 +44,43 @@ fn main() {
     let dict_path = match args.dict_path.as_ref() {
         Some(dict_path) => Path::new(dict_path),
         None => match lang {
-            Some(Lang::Lao) => lib::lao_path(),
-            Some(Lang::Khmer) => lib::khmer_dict_path(),
-            Some(Lang::Myanmar) => lib::myanmar_dict_path(),
-            Some(Lang::Thai) | None => lib::default_path(),
+            Some(Lang::Lao) => init::lao_path(),
+            Some(Lang::Khmer) => init::khmer_dict_path(),
+            Some(Lang::Myanmar) => init::myanmar_dict_path(),
+            Some(Lang::Thai) | None => init::default_path(),
         },
     };
     let word_delim = match args.word_delimiter.as_ref().map(|delim| delim.as_str()) {
         Some(word_delim) => word_delim,
         None => "|",
     };
-    let dict = lib::load_dict(dict_path).unwrap();
+    let dict = init::load_dict(dict_path).unwrap();
 
     let cluster_rule_path = if let Some(cluster_rules_path) = args.cluster_rules_path {
         Some(cluster_rules_path.to_string())
     } else {
         match lang {
-            Some(Lang::Lao) => lib::lao_clusters_path(),
-            Some(Lang::Khmer) => lib::khmer_clusters_path(),
-            Some(Lang::Myanmar) => lib::myanmar_clusters_path(),
-            Some(Lang::Thai) | None => lib::thai_cluster_path(),
+            Some(Lang::Lao) => init::lao_clusters_path(),
+            Some(Lang::Khmer) => init::khmer_clusters_path(),
+            Some(Lang::Myanmar) => init::myanmar_clusters_path(),
+            Some(Lang::Thai) | None => init::thai_cluster_path(),
         }
     };
 
     let wordcut = match cluster_rule_path {
         Some(cluster_rule_path) => {
             let cluster_re =
-                lib::wordcut_engine::load_cluster_rules(Path::new(&cluster_rule_path)).unwrap();
-            lib::Wordcut::new_with_cluster_re(dict, cluster_re)
+                init::wordcut_engine::load_cluster_rules(Path::new(&cluster_rule_path)).unwrap();
+            init::Wordcut::new_with_cluster_re(dict, cluster_re)
         }
-        None => lib::Wordcut::new(dict),
+        None => init::Wordcut::new(dict),
     };
 
     let replace_rules_path = if let Some(replace_rules_path) = args.replace_rules_path {
         Some(replace_rules_path)
     } else {
         match lang {
-            Some(Lang::Thai) | None => lib::thai_replace_rules_path(),
+            Some(Lang::Thai) | None => init::thai_replace_rules_path(),
             _ => None,
         }
     };
