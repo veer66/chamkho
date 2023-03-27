@@ -21,4 +21,4 @@ path = "src/cli.rs"
 [dependencies]
 proc-macro2 = "1.0.42"
 clap = { version = "4", features = ["derive"] }
-wordcut-engine = { git = "https://github.com/veer66/wordcut-engine" }
+wordcut-engine = { version = "1.1.5" }
