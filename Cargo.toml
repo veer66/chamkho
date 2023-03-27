@@ -1,6 +1,6 @@
 [package]
 name = "chamkho"
-version = "1.4.2"
+version = "1.4.3"
 edition = "2018"
 authors = ["Vee Satayamas <vsatayamas@gmail.com>"]
 description = "Khmer, Lao, Myanmar, and Thai word segmentation/breaking library and command line"
