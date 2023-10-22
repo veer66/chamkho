@@ -1,3 +1,5 @@
+# Moved to https://codeberg.org/mekong-lang/chamkho
+
 # Chamkho
 Khmer, Lao, Myanmar, and Thai word segmentation/breaking library and command line
 
